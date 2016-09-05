@@ -11,6 +11,7 @@
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/Msc.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/faceppsdk_min.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/json-jena-1.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-5.1.39-bin.jar" />
         </element>
       </element>
     </root>
