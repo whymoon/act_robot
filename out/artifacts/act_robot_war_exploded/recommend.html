@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/spinkit.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/photobooth_min.js"></script>
+    <script type="text/javascript" src="js/recommend.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <style>
+        body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+    </style>
+    <title>个性推荐</title>
+</head>
+<body>
+<div class="container">
+    <br/>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-md-12" >
+            <h2 align="center">请正对机器人，我们将根据您的身份信息，推荐您可能感兴趣的内容。</h2>
+        </div>
+    </div>
+    <br/>
+    <div class="row" >
+        <div class="col-md-2"></div>
+        <div class="col-md-8" align="center">
+            <div id="webcam" style="width:640px; height:480px"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" id="picture" align="center" ></div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" align="center">
+            <button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>
+            <button type="button" class="btn btn-success btn-lg" id="update">重拍</button>
+        </div>
+    </div>
+    <div class = "row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h3 id = "name" align="center"></h3>
+            <h3 id="title" >以下可能是您感兴趣的内容</h3>
+            <div id="interset" class="list-group">
+                <!--<a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                <a href="#" class="list-group-item">Morbi leo risus</a>
+                <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                <a href="#" class="list-group-item">Vestibulum at eros</a>-->
+            </div>
+        </div>
+    </div>
+    <div class="sk-circle">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+    </div>
+    <br/>
+
+</div>
+
+</body>
+<br/>
+<br/>
+<br/>
+<br/>
+<footer>
+    <div align="center">
+        <a href="index.html">
+            <img src="image/home.png" width="50px" height="50px" class="image-circle"/>
+        </a>
+        <span>Powered by Moon</span>
+    </div>
+</footer>
+</html>
