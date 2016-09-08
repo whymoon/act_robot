@@ -85,10 +85,7 @@ public class FaceIdentifyServlet extends HttpServlet {
                 information.put("user_department", "");
                 information.put("user_major", "");
             }
-
-
             con.close();
-
         }catch (Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());
