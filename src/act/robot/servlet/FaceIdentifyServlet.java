@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
@@ -65,16 +66,29 @@ public class FaceIdentifyServlet extends HttpServlet {
         }
         try{
 
-//            con = DBConnector.connect();
-//            statement = con.createStatement();
-//            String user_name= "select user_name from user_info where user_id= ' " + res + " ' ";
-//            String user_birthplace = "select user_birthplace from user_info where user_id= ' " + res + " ' ";
-//            int result = statement.executeUpdate();
-//
-//            con.close();
-            information.put("user_id", res);
-            information.put("user_name", " ");
-            information.put("user_birthplace", " ");
+            con = DBConnector.connect();
+            statement = con.createStatement();
+            String sql = "SELECT * FROM user_info WHERE user_id= '" + res + "'";
+            ResultSet sqlRes = statement.executeQuery(sql);
+            if(sqlRes.next()){
+                information.put("user_id", res);
+                information.put("user_name", sqlRes.getString("user_name"));
+                information.put("user_birthplace", sqlRes.getString("user_birthplace"));
+                information.put("user_job", sqlRes.getString("user_job"));
+                information.put("user_department", sqlRes.getString("user_department"));
+                information.put("user_major", sqlRes.getString("user_major"));
+            }else{
+                information.put("user_id", res);
+                information.put("user_name", "");
+                information.put("user_birthplace", "");
+                information.put("user_job", "");
+                information.put("user_department", "");
+                information.put("user_major", "");
+            }
+
+
+            con.close();
+
         }catch (Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());

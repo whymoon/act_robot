@@ -76,4 +76,12 @@
         <servlet-name>RecommendServlet</servlet-name>
         <url-pattern>/RecommendServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>RingServlet</servlet-name>
+        <servlet-class>act.robot.servlet.RingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RingServlet</servlet-name>
+        <url-pattern>/RingServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

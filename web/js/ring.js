@@ -39,16 +39,25 @@ function hideAll(){
 }
 
 function getAnswer(question) {
-    $.get("http://www.tuling123.com/openapi/api?key=3aa506e60d4a42c2a182b93360799c24&info=" +　question, function (data) {
-        console.log(data.text);
-        $('#robot-answer').text(data.text);
-        $('#robot-answer').show();
+    $.get("/act_robot/RingServlet?wd=" + question, function (data) {
+        console.log(data);
+        // $('#robot-answer').text(data.text);
+        // $('#robot-answer').show();
+
+        $('#robot-answer-title').text(data.content[0].hot);
+        $('#robot-answer-title').show();
+        $('#robot-answer-hot').text(data.content[0].hot);
+        $('#robot-answer-hot').show();
+        $('#robot-answer-loc').text(data.content[0].eventLoc);
+        $('#robot-answer-loc').show();
+        $('#robot-answer-participant').text(data.content[0].participant);
+        $('#robot-answer-participant').show();
         $('#answer-panel').fadeIn(2000);
         $('#padding-div').hide();
         $('.sk-three-bounce').hide();
         $('.sk-double-bounce').hide();
         $('#microphone').show();
-        speakText(data.text);
+        console.log("ring finished!");
     });
 }
 function speakText(contentText) {

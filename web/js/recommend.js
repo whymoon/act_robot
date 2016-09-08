@@ -67,7 +67,7 @@ function uploadImage(file) {
         contentType: false
     }).done(function(data) {
         console.log(data);
-        var str="result:"+ data["username"];
+        var str="result:"+ data["user_id"];
         $('#name').text(str).show();
         $('#title').show();
         detail(data);
