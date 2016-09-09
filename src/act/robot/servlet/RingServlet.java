@@ -26,9 +26,9 @@ public class RingServlet extends HttpServlet{
         String ring = request.getParameter("ring");
 
         try {
-//            if(ring.equals("yes"))
-//                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=week");
-//            else
+            if(ring.equals("yes"))
+                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=week");
+            else
                 str = sendGet("http://ring.cnbigdata.org/api/esearch?wd="+ key);
         } catch (Exception e) {
             e.printStackTrace();
