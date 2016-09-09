@@ -61,23 +61,51 @@ function ring() {
 function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
         console.log(data);
-        
-        $('#robot-answer-title').text(data.content[0].description);
-        $('#robot-answer-title').show();
-        $('#robot-answer-corewd').text(data.content[0].corewords);
-        $('#robot-answer-corewd').show();
-        $('#robot-answer-eventType').text(data.content[0].eventType);
-        $('#robot-answer-eventType').show();
-        $('#robot-answer-hot').text(data.content[0].hot);
-        $('#robot-answer-hot').show();
-        $('#robot-answer-loc').text(data.content[0].eventLoc);
-        $('#robot-answer-loc').show();
-        $('#robot-answer-participant').text(data.content[0].participant);
-        $('#robot-answer-participant').show();
-        $('#robot-answer-emotion').text(data.content[0].emotion);
-        $('#robot-answer-emotion').show();
-        $('#robot-answer-date').text(data.content[0].dateString);
-        $('#robot-answer-date').show();
+        var number;
+        if(data.content.length < NUM_PRINT_DATA)
+            number = data.content.length;
+        else
+            number = NUM_PRINT_DATA;
+        var code = "";
+        for(var i = 0; i < number; i++){
+            code += "<div class='weibo_line'>";
+            code += "<div class='event_desc'>";
+            code += "<span class='badge badge-warning'>" + (i + 1) + "</span>";
+            code += "<a href='#' class='robot-answer-title'>" + data.content[i].description +"</a><br/></div>";
+            code += "<div style='margin-left: 5px; margin-bottom: 3px'>";
+            code += "<span class='corewd' style='font-weight: bold'>关键词：</span>";
+            code += "<span class = 'robot-answer-corewd'>" + data.content[i].corewords + "</span><br/>";
+            code += "<span style='font-weight: bold'>参与者：</span>";
+            code += "<span class='robot-answer-participant'>" + data.content[i].participant + "</span><br/>";
+            code += "<span class='half-width'><span style='font-weight: bold'>事件类型：</span>";
+            code += "<span class='robot-answer-eventType'>" + data.content[i].eventType + "</span>";
+            code += "<span style='font-weight: bold'>地点：</span>";
+            code += "<span class='robot-answer-loc'>" + data.content[i].eventLoc +"</span><br/>";
+            code += "<span class='half-width'><span style='font-weight: bold'>事件情绪倾向：</span>";
+            code += "<span class='robot-answer-emotion'>" + data.content[i].emotion +"</span></span><br/>";
+            code += "<span style='float: left; font-weight: bold'>热度：</span>";
+            code += "<div class='progress' style='float: left; margin-top: 5px; margin-bottom: 0; height: 10px; width: 150px;'>";
+            code += "<div class='progress-bar progress-bar-danger'  style='width:11%' aria-valuenow='11' aria-valuemin='0' aria-valuemax='100'>";
+            code += "<div class='bar'></div></div></div>";
+            code += "<span style='margin: 0 0 0 0; font-size: 15px; color: #eb192d;'>&nbsp;11</span></div></div>";
+        }
+
+        //$('#robot-answer-title').text(data.content[0].description);
+        //$('#robot-answer-title').show();
+        //$('#robot-answer-corewd').text(data.content[0].corewords);
+        //$('#robot-answer-corewd').show();
+        //$('#robot-answer-eventType').text(data.content[0].eventType);
+        //$('#robot-answer-eventType').show();
+        //$('#robot-answer-hot').text(data.content[0].hot);
+        //$('#robot-answer-hot').show();
+        //$('#robot-answer-loc').text(data.content[0].eventLoc);
+        //$('#robot-answer-loc').show();
+        //$('#robot-answer-participant').text(data.content[0].participant);
+        //$('#robot-answer-participant').show();
+        //$('#robot-answer-emotion').text(data.content[0].emotion);
+        //$('#robot-answer-emotion').show();
+        //$('#robot-answer-date').text(data.content[0].dateString);
+        //$('#robot-answer-date').show();
 
         $('#answer-panel').fadeIn(2000);
         $('.weibo_line').show();
