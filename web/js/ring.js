@@ -37,13 +37,13 @@ function hideAll(){
     $('#robot-answer').hide();
     $('#question').hide();
 }
-
+// function ring() {
+//     $.get("/act_robot/RingServlet?ring="+"yes",function(data){
+//
+//     });
+// }
 function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question, function (data) {
-        console.log(data);
-        // $('#robot-answer').text(data.text);
-        // $('#robot-answer').show();
-
         $('#robot-answer-title').text(data.content[0].hot);
         $('#robot-answer-title').show();
         $('#robot-answer-hot').text(data.content[0].hot);

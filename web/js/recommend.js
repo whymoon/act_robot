@@ -24,12 +24,15 @@ $(document).ready(function(){
         $('#webcam').hide();
         $('#title').hide();
         $('#take-picture').hide();
+        $('#input_information').hide();
         $('#name').show();
         $('.sk-circle').show();
-        //$('#picture').show();
     });
     $('#update').click(function () {
         window.location.reload();
+    })
+    $('#input_information').click(function () {
+        window.location.href="input_face.html";
     })
 });
 

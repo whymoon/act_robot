@@ -84,4 +84,12 @@
         <servlet-name>RingServlet</servlet-name>
         <url-pattern>/RingServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>NavServlet</servlet-name>
+        <servlet-class>act.robot.servlet.NavServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NavServlet</servlet-name>
+        <url-pattern>/NavServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

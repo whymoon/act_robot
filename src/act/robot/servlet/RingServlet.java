@@ -20,16 +20,16 @@ import java.net.URL;
  */
 public class RingServlet extends HttpServlet{
     protected  void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
-        try{
-            Thread.sleep(1500);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
         String str = "";
         request.setCharacterEncoding("UTF-8");
         String key = request.getParameter("wd");
+        String ring = request.getParameter("ring");
+
         try {
-            str = sendGet(key);
+//            if(ring.equals("yes"))
+//                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=week");
+//            else
+                str = sendGet("http://ring.cnbigdata.org/api/esearch?wd="+ key);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,13 +40,11 @@ public class RingServlet extends HttpServlet{
         doPost(request,response);
     }
 
-    protected String sendGet( String param)throws Exception {
-        String url = "http://ring.cnbigdata.org/api/esearch?wd=" + param;
+    protected String sendGet(String url)throws Exception {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         //设置属性
         con.setRequestMethod("GET");//optional default is GET
-        //con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:2.0.1) Gecko/20100101 Firefox/4.0.1");//**
         con.setRequestProperty("Charset", "utf-8");
 
         //建立连接
