@@ -62,12 +62,16 @@ function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
         console.log(data);
         var number;
+        console.log(data.content);
         if(data.content.length < NUM_PRINT_DATA)
             number = data.content.length;
         else
             number = NUM_PRINT_DATA;
         var code = "";
         for(var i = 0; i < number; i++){
+            var hotbar = 100;
+            if(data.content[i].hot < 100)
+                hotbar = data.content[i].hot;
             code += "<div class='weibo_line'>";
             code += "<div class='event_desc'>";
             code += "<span class='badge badge-warning'>" + (i + 1) + "</span>";
@@ -82,12 +86,12 @@ function getAnswer(question) {
             code += "<span style='font-weight: bold'>地点：</span>";
             code += "<span class='robot-answer-loc'>" + data.content[i].eventLoc +"</span><br/>";
             code += "<span class='half-width'><span style='font-weight: bold'>事件情绪倾向：</span>";
-            code += "<span class='robot-answer-emotion'>" + data.content[i].emotion +"</span></span><br/>";
+            code += "<span class='robot-answer-emotion'>" + data.content[i].emotion +"</span></span>";
             code += "<span style='float: left; font-weight: bold'>热度：</span>";
             code += "<div class='progress' style='float: left; margin-top: 5px; margin-bottom: 0; height: 10px; width: 150px;'>";
-            code += "<div class='progress-bar progress-bar-danger'  style='width:11%' aria-valuenow='11' aria-valuemin='0' aria-valuemax='100'>";
+            code += "<div class='progress-bar progress-bar-danger' style='width:" + hotbar + "%' aria-valuenow='" + hotbar + "' aria-valuemin='0' aria-valuemax='100'>";
             code += "<div class='bar'></div></div></div>";
-            code += "<span style='margin: 0 0 0 0; font-size: 15px; color: #eb192d;'>&nbsp;11</span></div></div>";
+            code += "<span style='margin: 0 0 0 0; font-size: 15px; color: #eb192d;'>&nbsp;" + data.content[i].hot + "</span></div></div>";
         }
 
         //$('#robot-answer-title').text(data.content[0].description);
@@ -106,9 +110,9 @@ function getAnswer(question) {
         //$('#robot-answer-emotion').show();
         //$('#robot-answer-date').text(data.content[0].dateString);
         //$('#robot-answer-date').show();
-
+        $('#answer-panel .panel-body').html(code);
         $('#answer-panel').fadeIn(2000);
-        $('.weibo_line').show();
+        // $('.weibo_line').show();
         $('#padding-div').hide();
         $('.sk-three-bounce').hide();
         $('.sk-double-bounce').hide();
