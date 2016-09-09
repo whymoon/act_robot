@@ -30,6 +30,7 @@ public class RingServlet extends HttpServlet{
                 str = sendGet("http://ring.cnbigdata.org/api/newevent?type=week");
             else
                 str = sendGet("http://ring.cnbigdata.org/api/esearch?wd="+ key);
+//            System.out.println(str);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +57,7 @@ public class RingServlet extends HttpServlet{
             result += line;
         }
         in.close();
-        System.out.print(result);
+//        System.out.print(url);
         return result;
     }
 

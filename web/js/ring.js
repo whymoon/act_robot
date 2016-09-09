@@ -5,6 +5,7 @@ $(document).ready(function () {
     hideAll();
     ring();
     $('#microphone').click(function () {
+        $('.weibo_line').hide();
         $('.sk-three-bounce').fadeIn();
         $('#user-speak').hide();
         $('#robot-answer').hide();
@@ -12,6 +13,7 @@ $(document).ready(function () {
         $('#title').hide();
         $('#content').hide();
         $('#question').show();
+        $('#begin-loading').hide();
         $.get("/act_robot/IatServlet",function (data) {
             console.log(data);
             $('#user-speak').text(data);
@@ -20,6 +22,7 @@ $(document).ready(function () {
             $('#padding-div').hide()
             $('.sk-three-bounce').hide();
             $('.sk-double-bounce').show();
+            $('.sk-three-bounce1').hide();
             getAnswer(data);
         });
     })
@@ -33,17 +36,20 @@ function hideAll(){
     $('#robot-answer').hide();
     $('#question').hide();
     $('#content').hide();
+    $('#begin-loading').show();
 }
 function ring() {
     $.get("/act_robot/RingServlet?ring=yes",function(data){
         $('#content1').text(data.weekEvent[0].description);
         $('#content2').text(data.weekEvent[1].description);
         $('#content3').text(data.weekEvent[2].description);
+        $('#begin-loading').hide();
         $('#content').show();
     });
 }
 function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
+        console.log(data);
         $('#robot-answer-title').text(data.content[0].description);
         $('#robot-answer-title').show();
         $('#robot-answer-corewd').text(data.content[0].corewords);
@@ -62,6 +68,7 @@ function getAnswer(question) {
         $('#robot-answer-date').show();
 
         $('#answer-panel').fadeIn(2000);
+        $('.weibo_line').show();
         $('#padding-div').hide();
         $('.sk-three-bounce').hide();
         $('.sk-double-bounce').hide();
