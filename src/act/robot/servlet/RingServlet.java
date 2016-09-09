@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * Created by my dell on 2016/8/17.
@@ -24,13 +25,11 @@ public class RingServlet extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
         String key = request.getParameter("wd");
         String ring = request.getParameter("ring");
-
         try {
             if(ring.equals("yes"))
-                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=week");
+                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=latest");
             else
-                str = sendGet("http://ring.cnbigdata.org/api/esearch?wd="+ key);
-//            System.out.println(str);
+                str = sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +56,7 @@ public class RingServlet extends HttpServlet{
             result += line;
         }
         in.close();
-//        System.out.print(url);
+        System.out.print(result);
         return result;
     }
 

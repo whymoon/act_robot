@@ -70,10 +70,11 @@ function uploadImage(file) {
         contentType: false
     }).done(function(data) {
         console.log(data);
-        var str="result:"+ data["user_id"];
+        var str="识别结果:"+ data["user_name"];
         $('#name').text(str).show();
         $('#title').show();
         detail(data);
+        alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
     });
 }
 

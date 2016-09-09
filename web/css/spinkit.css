@@ -7,7 +7,7 @@
 .sk-rotating-plane {
   width: 40px;
   height: 40px;
-  background-color: #333;
+  background-color: #67CF22;
   margin: 40px auto;
   -webkit-animation: sk-rotatePlane 1.2s infinite ease-in-out;
           animation: sk-rotatePlane 1.2s infinite ease-in-out; }

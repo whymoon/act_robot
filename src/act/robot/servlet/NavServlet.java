@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class NavServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().write("0");
+        response.getWriter().write("1");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

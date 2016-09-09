@@ -1,6 +1,7 @@
 /**
  * Created by my dell on 2016/8/17.
  */
+var NUM_PRINT_DATA = 7;
 $(document).ready(function () {
     hideAll();
     ring();
@@ -40,9 +41,19 @@ function hideAll(){
 }
 function ring() {
     $.get("/act_robot/RingServlet?ring=yes",function(data){
-        $('#content1').text(data.weekEvent[0].description);
-        $('#content2').text(data.weekEvent[1].description);
-        $('#content3').text(data.weekEvent[2].description);
+        var number;
+        console.log(data.latestEvent);
+        if(data.latestEvent.length < NUM_PRINT_DATA)
+            number = data.latestEvent.length;
+        else
+            number = NUM_PRINT_DATA;
+        var code = "";
+        for(var i = 0; i < number; i++){
+            if(data.latestEvent[i].description.indexOf("天气预报") == -1)
+                code += "<h3>" + data.latestEvent[i].description + "</h3>";
+        }
+        code += "<h3>......</h3>";
+        $('#content').html(code);
         $('#begin-loading').hide();
         $('#content').show();
     });
@@ -50,6 +61,7 @@ function ring() {
 function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
         console.log(data);
+        
         $('#robot-answer-title').text(data.content[0].description);
         $('#robot-answer-title').show();
         $('#robot-answer-corewd').text(data.content[0].corewords);

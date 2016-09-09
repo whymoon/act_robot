@@ -23,50 +23,26 @@
     <br/>
     <br/>
     <div class = "row">
-        <div class = "row">
-            <div class = "col-md-12">
-                <h2 id="guide1">请告诉我您要去哪里，例如：带我去会议室A，带我去找孙承根</h2>
-                <br/>
-                <h3 id="guide2">或从以下列点击目的地</h3>
-                <br/>
-                <br/>
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <ul class="col-md-3"></ul>
-                        <ul class="col-md-3">
-                            <li id="button1" style="font-size:30px">501</li>
-                            <li id="button2" style="font-size:30px">502</li>
-                            <li id="button3" style="font-size:30px">503</li>
-                        </ul>
-                        <ul class="col-md-3">
-                            <li id="button4" style="font-size:30px">会议室A</li>
-                            <li id="button5" style="font-size:30px">会议室B</li>
-                            <li id="button6" style="font-size:30px">洗手间</li>
-                        </ul>
-                    </div>
-                </div>
-
-
-
-                <!--<div class="col-md-2" id="button1">-->
-                    <!--<span   class="glyphicon glyphicon-star"></span> 501-->
-                <!--</div>-->
-                <!--<div class="col-md-2" id="button2">-->
-                    <!--<span   class="glyphicon glyphicon-star"></span> 502-->
-                <!--</div>-->
-                <!--<div class="col-md-2" id="button3">-->
-                    <!--<span   class="glyphicon glyphicon-star"></span> 503-->
-                <!--</div>-->
-                <!--<div class="col-md-2"  id="button4" >-->
-                    <!--<span class="glyphicon glyphicon-star"></span> 会议室A-->
-                <!--</div>-->
-                <!--<div class="col-md-2"  id="button5" >-->
-                    <!--<span class="glyphicon glyphicon-star"></span> 会议室B-->
-                <!--</div>-->
-                <!--<div class="col-md-2" id="button6">-->
-                    <!--<span   class="glyphicon glyphicon-star"></span> 洗手间-->
-                <!--</div>-->
-
+        <div class = "col-md-12">
+            <h2 id="guide1">请告诉我您要去哪里，例如：带我去会议室，带我去找XXX</h2>
+            <br/>
+            <h3 id="guide2">或从以下列点击目的地</h3>
+            <br/>
+            <br/>
+            <div class="row well">
+                <div class="col-md-2"></div>
+                <ul class="col-md-4 list-group">
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>501</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>502</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>503</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>504</h3></a></li>
+                </ul>
+                <ul class="col-md-4 list-group">
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>会议室A</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>会议室B</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>洗手间</h3></a></li>
+                    <li class="destination"><a href="nav-guide.html"><h3><span class="glyphicon glyphicon-map-marker"></span>办公室</h3></a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -85,11 +61,8 @@
 <div class="row">
     <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px">
         <div id="guide_answer">
-
-            <h6 id="b2" align="center">识别失败，请再说一遍吧！</h6>
+            <span id="b2" align="center">识别失败，请再说一遍吧！</span>
         </div>
-
-
     </div>
 </div>
 <div class="sk-three-bounce">
@@ -101,7 +74,6 @@
     <div class="sk-child sk-double-bounce1"></div>
     <div class="sk-child sk-double-bounce2"></div>
 </div>
-<div id="padding-div" class="row" style="margin: 100px"></div>
 <hr>
 
 <footer>
@@ -112,9 +84,6 @@
         <span >Powered by Moon</span>
     </div>
 </footer>
-
-
-
 
 </body>
 </html>
