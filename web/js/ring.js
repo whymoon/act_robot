@@ -3,19 +3,15 @@
  */
 $(document).ready(function () {
     hideAll();
+    ring();
     $('#microphone').click(function () {
         $('.sk-three-bounce').fadeIn();
         $('#user-speak').hide();
         $('#robot-answer').hide();
         $('#microphone').hide();
         $('#title').hide();
-        $('#content1').hide();
-        $('#content2').hide();
-        $('#content3').hide();
-        $('#content4').hide();
-        $('#content5').hide();
+        $('#content').hide();
         $('#question').show();
-        //$('#content5').hide();
         $.get("/act_robot/IatServlet",function (data) {
             console.log(data);
             $('#user-speak').text(data);
@@ -36,22 +32,35 @@ function hideAll(){
    $('#user-speak').hide();
     $('#robot-answer').hide();
     $('#question').hide();
+    $('#content').hide();
 }
-// function ring() {
-//     $.get("/act_robot/RingServlet?ring="+"yes",function(data){
-//
-//     });
-// }
+function ring() {
+    $.get("/act_robot/RingServlet?ring=yes",function(data){
+        $('#content1').text(data.weekEvent[0].description);
+        $('#content2').text(data.weekEvent[1].description);
+        $('#content3').text(data.weekEvent[2].description);
+        $('#content').show();
+    });
+}
 function getAnswer(question) {
-    $.get("/act_robot/RingServlet?wd=" + question, function (data) {
-        $('#robot-answer-title').text(data.content[0].hot);
+    $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
+        $('#robot-answer-title').text(data.content[0].description);
         $('#robot-answer-title').show();
+        $('#robot-answer-corewd').text(data.content[0].corewords);
+        $('#robot-answer-corewd').show();
+        $('#robot-answer-eventType').text(data.content[0].eventType);
+        $('#robot-answer-eventType').show();
         $('#robot-answer-hot').text(data.content[0].hot);
         $('#robot-answer-hot').show();
         $('#robot-answer-loc').text(data.content[0].eventLoc);
         $('#robot-answer-loc').show();
         $('#robot-answer-participant').text(data.content[0].participant);
         $('#robot-answer-participant').show();
+        $('#robot-answer-emotion').text(data.content[0].emotion);
+        $('#robot-answer-emotion').show();
+        $('#robot-answer-date').text(data.content[0].dateString);
+        $('#robot-answer-date').show();
+
         $('#answer-panel').fadeIn(2000);
         $('#padding-div').hide();
         $('.sk-three-bounce').hide();
