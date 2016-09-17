@@ -18,13 +18,15 @@ $(document).ready(function(){
     }
      $('.photobooth ul').hide();
 
+    $('#return').click(function () {
+        window.history.back();
+    })
     $('#take-picture').click(function () {
         $('#update').show();
         $('.trigger').click();
         $('#webcam').hide();
         $('#title').hide();
         $('#take-picture').hide();
-        $('#input_information').hide();
         $('#name').show();
         $('.sk-circle').show();
     });
@@ -73,20 +75,19 @@ function uploadImage(file) {
         var str="识别结果:"+ data["user_name"];
         $('#name').text(str).show();
         $('#title').show();
-        detail(data);
+        recommend(data["user_name"]);
         alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
     });
 }
 
-function detail(recommend_data){
-    $.post("/act_robot/RecommendServlet",
-        recommend_data,
+function recommend(recommend_data){
+    $.post("/act_robot/RingServlet?ring=no&wd=", recommend_data,
         function(data) {
-        // console.log(data);
+        console.log(data);
             $('.sk-circle').hide();
             var code = "";
-            for(var i = 0;i<data.length;i++){
-                code+="<a href=\"#\" class=\"list-group-item\">" + data[i]["content"] + "<a/>";//最好用中括号不用点
+            for(var i = 0;i<5;i++){
+                code+="<a href=\"#\" class=\"list-group-item\">" + data.content[i].description + "<a/>";//最好用中括号不用点
             }
             $('#interset').html(code).show();
         });
