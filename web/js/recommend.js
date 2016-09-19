@@ -3,7 +3,6 @@
  */
 $(document).ready(function(){
     hideAll();
-    //$('#picture').hide();
     $('#webcam').resize(640, 480);
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
@@ -18,9 +17,6 @@ $(document).ready(function(){
     }
      $('.photobooth ul').hide();
 
-    $('#return').click(function () {
-        window.history.back();
-    })
     $('#take-picture').click(function () {
         $('#update').show();
         $('.trigger').click();
@@ -45,6 +41,7 @@ function hideAll() {
     $('#name').hide();
     $('#update').hide();
 }
+
 function dataURLtoBlob(dataUrl) {
     // Decode the dataURL
     var binary = atob(dataUrl.split(',')[1]);
@@ -76,19 +73,61 @@ function uploadImage(file) {
         $('#name').text(str).show();
         $('#title').show();
         recommend(data["user_name"]);
+        recommend(data["user_birthplace"]);
+        recommend(data["user_job"]);
+        recommend(data["user_department"]);
+        recommend(data["user_major"]);
         alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
     });
 }
 
 function recommend(recommend_data){
+    var code="";
     $.post("/act_robot/RingServlet?ring=no&wd=", recommend_data,
         function(data) {
-        console.log(data);
+            console.log(data);
+            quickSort_hot(data.content,0,data.content.length-1);
             $('.sk-circle').hide();
-            var code = "";
+            code += "<div class='bs-callout bs-callout-primary' style=' margin :0 auto;width: 800px'>";
+            code += "<h4>" + data.content[0].description + "<small>"+data.content[0].hot+"</small></h4>";
+            code += "</div>";
             for(var i = 0;i<5;i++){
-                code+="<a href=\"#\" class=\"list-group-item\">" + data.content[i].description + "<a/>";//最好用中括号不用点
+                if(i == 0)
+                    $('#name_interest').html(code).show();
+                else if(i==1)
+                    $('#birthplace_interest').html(code).show();
+                else if(i==2)
+                    $('#job_interest').html(code).show();
+                else if(i==3)
+                    $('#department_interest').html(code).show();
+                else
+                    $('#major_interest').html(code).show();
             }
-            $('#interset').html(code).show();
         });
+}
+function quickSort_hot(arr, left, right) {
+    var i, j, t, pivot;
+    if (left >= right) {
+        return;
+    }
+    pivot = arr[left].hot;
+    i = left;
+    j = right;
+    while (i != j) {
+        while (arr[j].hot <= pivot && i < j) {
+            j--;
+        }
+        while (arr[i].hot >= pivot && i < j) {
+            i++;
+        }
+        if (i < j) {
+            t = arr[i].hot;
+            arr[i].hot = arr[j].hot;
+            arr[j].hot = t;
+        }
+    }
+    arr[left].hot = arr[j].hot;
+    arr[j].hot = pivot;
+    quickSort_hot(arr, left, i - 1);
+    quickSort_hot(arr, i + 1, right);
 }

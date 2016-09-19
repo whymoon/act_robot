@@ -28,9 +28,7 @@ $(document).ready(function () {
             getAnswer(data);
         });
     })
-    $('#return').click(function () {
-        window.history.back();
-    })
+
 });
 function hideAll(){
     $('.sk-three-bounce').hide();
@@ -46,24 +44,25 @@ function hideAll(){
 function ring() {
     $.get("/act_robot/RingServlet?ring=yes",function(data){
         var number;
-        var text = "以下是今天的热门事件：";
         console.log(data.latestEvent);
         if(data.latestEvent.length < NUM_PRINT_DATA)
             number = data.latestEvent.length;
         else
             number = NUM_PRINT_DATA;
-        var code = "<ul>";
+        quickSort_hot(data.latestEvent,0,number-1);
+        var code = "";
         for(var i = 0; i < number; i++){
-            if(data.latestEvent[i].description.indexOf("天气预报") == -1)
-                code += "<li style='font-size: 20px'>" + data.latestEvent[i].description + "</li>";
-                text += data.latestEvent[i].description + ";";
+            if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
+                code += "<div class='bs-callout bs-callout-primary'>";
+                code += "<h4>" + data.latestEvent[i].description + "<small>"+data.latestEvent[i].hot+"</small></h4>";
+                code += "</div>";
+            }
         }
         // code += "<h3>......</h3>";
-        code += "</ul>";
+        //code += "</div>";
         $('#content').html(code);
         $('#begin-loading').hide();
         $('#content').show();
-        speakText(text);
     });
 }
 function getAnswer(question) {
@@ -77,6 +76,7 @@ function getAnswer(question) {
             number = NUM_PRINT_DATA;
         var code = "";
         var relatedContent = "有关内容如下：";
+        quickSort_hot(data.content,0,number-1);
         for(var i = 0; i < number; i++) {
             var hotbar = 100;
             if (data.content[i].hot < 100)
@@ -130,6 +130,32 @@ function getAnswer(question) {
         $('#microphone').show();
         console.log("ring finished!");
     });
+}
+function quickSort_hot(arr, left, right) {
+    var i, j, t, pivot;
+    if (left >= right) {
+        return;
+    }
+    pivot = arr[left].hot;
+    i = left;
+    j = right;
+    while (i != j) {
+        while (arr[j].hot <= pivot && i < j) {
+            j--;
+        }
+        while (arr[i].hot >= pivot && i < j) {
+            i++;
+        }
+        if (i < j) {
+            t = arr[i].hot;
+            arr[i].hot = arr[j].hot;
+            arr[j].hot = t;
+        }
+    }
+    arr[left].hot = arr[j].hot;
+    arr[j].hot = pivot;
+    quickSort_hot(arr, left, i - 1);
+    quickSort_hot(arr, i + 1, right);
 }
 function speakText(contentText) {
     $.post("/act_robot/TtsServlet",
