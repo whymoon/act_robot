@@ -46,15 +46,28 @@ window.onload = function(){
         context.restore();
     }
     //动画循环
-    (function drawFrame(){
-        window.requestAnimationFrame(drawFrame);
+    // (function drawFrame(){
+    //     window.requestAnimationFrame(drawFrame);
+    //     context.clearRect(0, 0, canvas.width, canvas.height);
+    //     whiteCircle();
+    //     $.post("/act_robot/ChargingServlet",function (data) {
+    //         // console.log(data + "");
+    //         text(parseInt(data));
+    //         blueCircle(parseInt(data));
+    //     });
+    //     // text(speed);
+    //     // blueCircle(speed);
+    //     // if(speed > 100)
+    //     //     return;
+    //     // else
+    //     //     speed += 0.1;
+    // }());
+    setInterval(function(){
         context.clearRect(0, 0, canvas.width, canvas.height);
         whiteCircle();
-        text(speed);
-        blueCircle(speed);
-        if(speed > 100)
-            return;
-        else
-            speed += 0.1;
-    }());
-}
+        $.post("/act_robot/ChargingServlet",function (data) {
+                    text(parseInt(data));
+                    blueCircle(parseInt(data));
+                });
+    },1000);//时间以毫秒算
+};

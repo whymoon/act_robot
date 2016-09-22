@@ -92,4 +92,12 @@
         <servlet-name>NavServlet</servlet-name>
         <url-pattern>/NavServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ChargingServlet</servlet-name>
+        <servlet-class>act.robot.servlet.ChargingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChargingServlet</servlet-name>
+        <url-pattern>/ChargingServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
