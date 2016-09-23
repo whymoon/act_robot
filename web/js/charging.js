@@ -45,23 +45,6 @@ window.onload = function(){
         context.stroke(); //执行绘制
         context.restore();
     }
-    //动画循环
-    // (function drawFrame(){
-    //     window.requestAnimationFrame(drawFrame);
-    //     context.clearRect(0, 0, canvas.width, canvas.height);
-    //     whiteCircle();
-    //     $.post("/act_robot/ChargingServlet",function (data) {
-    //         // console.log(data + "");
-    //         text(parseInt(data));
-    //         blueCircle(parseInt(data));
-    //     });
-    //     // text(speed);
-    //     // blueCircle(speed);
-    //     // if(speed > 100)
-    //     //     return;
-    //     // else
-    //     //     speed += 0.1;
-    // }());
     setInterval(function(){
         context.clearRect(0, 0, canvas.width, canvas.height);
         whiteCircle();
