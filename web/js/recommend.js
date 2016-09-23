@@ -72,18 +72,18 @@ function uploadImage(file) {
         var str="识别结果:"+ data["user_name"];
         $('#name').text(str).show();
         $('#title').show();
-        recommend(data["user_name"]);
-        recommend(data["user_birthplace"]);
-        recommend(data["user_job"]);
-        recommend(data["user_department"]);
-        recommend(data["user_major"]);
+        recommend(data["user_name"],0);
+        recommend(data["user_birthplace"],1);
+        recommend(data["user_job"],2);
+        recommend(data["user_department"],3);
+        recommend(data["user_major"],4);
         alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
     });
 }
 
-function recommend(recommend_data){
+function recommend(recommend_data,num){
     var code="";
-    $.post("/act_robot/RingServlet?ring=no&wd=", recommend_data,
+    $.post("/act_robot/RingServlet?ring=no&wd="+ recommend_data,
         function(data) {
             console.log(data);
             quickSort_hot(data.content,0,data.content.length-1);
@@ -91,18 +91,16 @@ function recommend(recommend_data){
             code += "<div class='bs-callout bs-callout-primary' style=' margin :0 auto;width: 800px'>";
             code += "<h4>" + data.content[0].description + "<small>"+data.content[0].hot+"</small></h4>";
             code += "</div>";
-            for(var i = 0;i<5;i++){
-                if(i == 0)
-                    $('#name_interest').html(code).show();
-                else if(i==1)
-                    $('#birthplace_interest').html(code).show();
-                else if(i==2)
-                    $('#job_interest').html(code).show();
-                else if(i==3)
-                    $('#department_interest').html(code).show();
-                else
-                    $('#major_interest').html(code).show();
-            }
+            if(num == 0)
+                $('#name_interest').html(code).show();
+            else if(num==1)
+                $('#birthplace_interest').html(code).show();
+            else if(num==2)
+                $('#job_interest').html(code).show();
+            else if(num==3)
+                $('#department_interest').html(code).show();
+            else
+                $('#major_interest').html(code).show();
         });
 }
 function quickSort_hot(arr, left, right) {
