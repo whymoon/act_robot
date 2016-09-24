@@ -25,31 +25,39 @@ import java.io.InputStream;
 public class HelloServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        int len = 0;
+        String name = "null";
         try{
-        Part filePart = request.getPart("photo");
-        String fileName = filePart.getSubmittedFileName();
-        InputStream fileContent = filePart.getInputStream();
-        ByteArrayOutputStream photo = new ByteArrayOutputStream();
-        byte[] temp = new byte[1024*10];
-        int size = 0;
-        while((size = fileContent.read(temp)) != -1)
-            photo.write(temp, 0, size);
+            Part filePart = request.getPart("photo");
+            String fileName = filePart.getSubmittedFileName();
+            InputStream fileContent = filePart.getInputStream();
+            ByteArrayOutputStream photo = new ByteArrayOutputStream();
+            byte[] temp = new byte[1024*10];
+            int size = 0;
+            while((size = fileContent.read(temp)) != -1)
+                photo.write(temp, 0, size);
 
-        HttpRequests httpRequests = new HttpRequests(
-                FaceConstant.API_KEY,
-                FaceConstant.API_SECRET, true, true);
+            HttpRequests httpRequests = new HttpRequests(
+                    FaceConstant.API_KEY,
+                    FaceConstant.API_SECRET, true, true);
 
-        JSONObject res = httpRequests.detectionDetect(new PostParameters().setImg(photo.toByteArray()));
-        JSONArray face = res.getJSONArray("face");
-        len = face.length();
-
+            JSONObject res = httpRequests.detectionDetect(new PostParameters().setImg(photo.toByteArray()));
+            JSONArray face = res.getJSONArray("face");
+            if(face.length() > 0){
+                name = "empty";
+                JSONObject json = httpRequests.recognitionIdentify(
+                        new PostParameters().setGroupName(FaceConstant.GROUP_NAME).setImg(photo.toByteArray()));
+                JSONArray names = json.getJSONArray("face");
+                System.out.println(names);
+                if(names.length() > 0) {
+                    name = names.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("tag");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
         response.setContentType("text/plain; charset=utf-8");
-        response.getWriter().write(String.valueOf(len));
+        response.getWriter().write(name);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {

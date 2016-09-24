@@ -1,5 +1,6 @@
 package act.robot.servlet;
 
+import act.robot.util.HttpUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sun.net.www.http.HttpClient;
@@ -25,11 +26,12 @@ public class RingServlet extends HttpServlet{
         request.setCharacterEncoding("UTF-8");
         String key = request.getParameter("wd");
         String ring = request.getParameter("ring");
+
         try {
             if(ring.equals("yes"))
-                str = sendGet("http://ring.cnbigdata.org/api/newevent?type=latest");
+                str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/newevent?type=latest");
             else
-                str = sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));
+                str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,26 +40,6 @@ public class RingServlet extends HttpServlet{
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);
-    }
-
-    protected String sendGet(String url)throws Exception {
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        //设置属性
-        con.setRequestMethod("GET");//optional default is GET
-        con.setRequestProperty("Charset", "utf-8");
-
-        //建立连接
-        con.connect();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
-        String line;
-        String result = "";
-        while ((line = in.readLine()) != null) {
-            result += line;
-        }
-        in.close();
-        System.out.print(result);
-        return result;
     }
 
 }

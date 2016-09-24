@@ -1,12 +1,13 @@
 /**
  * Created by songxinxin on 2016/9/21.
  */
+lastRes = "null";
 $(document).ready(function () {
+    speakText("");
     $('#webcam').resize(640, 480);
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
     $('#webcam').on("image",function(event, dataUrl){
-        $("#picture").append( '<img src="' + dataUrl + '" width="128px" height="96px">');
         var file = dataURLtoBlob(dataUrl);
         uploadImage(file);
     });
@@ -15,23 +16,26 @@ $(document).ready(function () {
         alert('HTML5 webcam is not supported by your browser, please use latest firefox, opera or chrome!');
     }
     $('#webcam').hide();
-    $('#picture').hide();
-});
-//battery
-function setProcess(n){
-    var processbar = document.getElementById("processbar");
-        processbar.style.width = n + "%";
-        processbar.innerHTML =n + "%";
-    }
-setInterval(function(){
+
+    //battery
+    setInterval(function(){
         $.post("/act_robot/ChargingServlet",function (data) {
-            setProcess(parseInt(data));
+            setBattery(data);
         });
-    },1000);
-//photo
-setInterval(function(){
+    },5000);
+    //photo
     $('.trigger').click();
-},5000);
+    setInterval(function(){
+        $('.trigger').click();
+    },5000);
+});
+
+function setBattery(n){
+    console.log(n);
+    $('#charge').width(n + "%");
+    $('#charge').text(n + "%");
+}
+
 
 function dataURLtoBlob(dataUrl) {
     // Decode the dataURL
@@ -59,10 +63,15 @@ function uploadImage(file) {
         contentType: false
     }).done(function(data) {
         console.log(data);
-        if(parseInt(data)>0)
-            speakText("你好");
-        // else
-        //     speakText("你不是人");
+        if(data == lastRes){
+            console.log("same " + lastRes);
+            return;
+        }
+        lastRes = data;
+        if(data == "empty")
+            speakText("你好！");
+        else if(data != "null")
+            speakText("你好！" + data);
     });
 }
 

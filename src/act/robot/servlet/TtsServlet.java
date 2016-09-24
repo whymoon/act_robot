@@ -58,7 +58,9 @@ public class TtsServlet extends HttpServlet {
             @Override
             public void onSpeakResumed() {}
             @Override
-            public void onCompleted(SpeechError speechError) {}
+            public void onCompleted(SpeechError speechError) {
+                System.out.println(speechError);
+            }
         };
         mTts.startSpeaking(request.getParameter("text"), mSynListener);
         response.getWriter().write("finished");

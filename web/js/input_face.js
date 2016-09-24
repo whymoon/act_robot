@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    speakText("");
     var files = new Array();
     var fileIndex = 0;
     $('.sk-circle').hide();
@@ -71,6 +72,16 @@ function dataURLtoBlob(dataUrl) {
     return new Blob([new Uint8Array(array)], {
         type: 'image/png'
     });
+}
+
+function speakText(contentText) {
+    $.post("/act_robot/TtsServlet",
+        {
+            text: contentText
+        },
+        function(data){
+            console.log(data);
+        });
 }
 
 function uploadImage(file) {

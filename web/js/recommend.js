@@ -1,26 +1,25 @@
 /**
  * Created by my dell on 2016/8/21.
  */
-var jsonArray = new Array();
-var NUM_PRINT_DATA = 6;
-
-$(document).ready(function(){
+$(document).ready(function () {
+    speakText("");
     hideAll();
     $('#webcam').resize(640, 480);
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
-    $('#webcam').on("image",function(event, dataUrl){
-        $("#picture").append( '<img src="' + dataUrl + '" width="640px" height="480px">');
+    $('#webcam').on("image", function (event, dataUrl) {
+        $("#picture").append('<img src="' + dataUrl + '" width="640px" height="480px">');
         var file = dataURLtoBlob(dataUrl);
         uploadImage(file);
     });
 
-    if(!$('#webcam').data('photobooth').isSupported){
+    if (!$('#webcam').data('photobooth').isSupported) {
         alert('HTML5 webcam is not supported by your browser, please use latest firefox, opera or chrome!');
     }
-     $('.photobooth ul').hide();
+    $('.photobooth ul').hide();
 
     $('#take-picture').click(function () {
+        speakText("");
         $('#webcam').hide();
         $('#take-picture').hide();
         $('#update').show();
@@ -33,8 +32,10 @@ $(document).ready(function(){
         window.location.reload();
     })
     $('#input_information').click(function () {
-        window.location.href="input_face.html";
+        speakText("");
+        window.location.href = "input_face.html";
     })
+    speakText($('#header-title').text());
 });
 
 function hideAll() {
@@ -65,67 +66,57 @@ function uploadImage(file) {
     fd.append('photo', file);
     $.ajax({
         type: 'POST',
-        async : false, //取消异步
         url: '/act_robot/FaceIdentifyServlet',
-        dataType:"json",
+        dataType: "json",
         data: fd,
         processData: false,
         contentType: false
-    }).done(function(data) {
+    }).done(function (data) {
         console.log(data);
-
-        var str="识别结果:"+ data["user_name"];
+        var str = "识别结果:" + data["user_name"];
         $('#name').text(str).show();
         $('#title').show();
-        alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
-        recommend(data["user_name"],false);
-        recommend(data["user_birthplace"],false);
-        recommend(data["user_job"],false);
-        recommend(data["user_department"],false);
-        recommend(data["user_major"],true);
-        // interested_content();
+        // alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
+        var keys = new Array();
+        keys.push(data["user_name"]);
+        keys.push(data["user_birthplace"]);
+        keys.push(data["user_job"]);
+        keys.push(data["user_department"]);
+        keys.push(data["user_major"]);
+        recommend(keys, data["user_name"]);
     });
 }
 
-function recommend(recommend_data,boolean){
-    $.post("/act_robot/RingServlet?ring=no&wd="+ recommend_data,
-        function(data) {
-            for(var i = 0;i<data.content.length;i++)
-                window.jsonArray.push(data.content[i]);
-            console.log("数组长度"+window.jsonArray.length);
-            console.log(data);
-            // quickSort_hot(data.content,0,data.content.length-1);
-            // $('.sk-circle').hide();
-            // code += "<div class='bs-callout bs-callout-primary' style=' margin :0 auto;width: 800px'>";
-            // code += "<h4>" + data.content[0].description + "<small>"+data.content[0].hot+"</small></h4>";
-            // code += "</div>";
-            // if(num == 0)
-            //     $('#name_interest').html(code).show();
-            // else if(num==1)
-            //     $('#birthplace_interest').html(code).show();
-            // else if(num==2)
-            //     $('#job_interest').html(code).show();
-            // else if(num==3)
-            //     $('#department_interest').html(code).show();
-            // else
-            //     $('#major_interest').html(code).show();
-            if(boolean == true)
-                interested_content();
+function recommend(keys, userName) {
+    $.post("/act_robot/RecommendServlet",
+        {
+            keys: JSON.stringify(keys)
+        },
+        function (data) {
+            var interestData = new Array();
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].content.length == 0)
+                    continue;
+                if (data[i].content.length == 1) {
+                    interestData.push(data[i].content[0])
+                    continue;
+                }
+                quickSort_hot(data[i].content, 0, data[i].content.length - 1);
+                for (var j = 0; j < 2; j++) {
+                    interestData.push(data[i].content[j]);
+                }
+            }
+            interested_content(interestData, userName);
         });
 }
-function interested_content() {
-    quickSort_hot(window.jsonArray,0,window.jsonArray.length-1);
-    var number;
-    var code = "",relatedContent = "";
-    if(window.jsonArray.length>NUM_PRINT_DATA)
-        number = NUM_PRINT_DATA;
-    else
-        number = window.jsonArray.length;
-    console.log("num的值"+number + " "+window.jsonArray.length);
-    for(var i = 0;i<number;i++){
+function interested_content(interestData, userName) {
+    quickSort_hot(interestData, 0, interestData.length - 1);
+    console.log(interestData);
+    var code = "", relatedContent = "您好，" + userName + ", 以下可能是您感兴趣的内容:";
+    for (var i = 0; i < interestData.length; i++) {
         var hotbar = 100;
-        if (jsonArray[i].hot < 100)
-            hotbar = jsonArray[i].hot;
+        if (interestData[i].hot < 100)
+            hotbar = interestData[i].hot;
         if (i % 2 == 0)
             code += "<div style='height: 140px'><div style='float:left;width:49%'>";
         else
@@ -133,37 +124,47 @@ function interested_content() {
         code += "<div class='weibo_line'>";
         code += "<div class='event_desc'>";
         code += "<span class='badge badge-warning'>" + (i + 1) + "</span>";
-        code += "<a href='#' class='robot-answer-title'>" + window.jsonArray[i].description + "</a><br/></div>";
-        var j = i+1;
-        relatedContent += j+ ";"+window.jsonArray[i].description + ";";
+        code += "&nbsp;&nbsp;<a href='#' class='robot-answer-title'>" + interestData[i].description + "</a><br/></div>";
+        var j = i + 1;
+        relatedContent += j + ";" + interestData[i].description + ";";
         code += "<div style='margin-left: 5px; margin-bottom: 3px'>";
         code += "<span class='corewd' style='font-weight: bold'>关键词：</span>";
-        code += "<span class = 'robot-answer-corewd'>" + window.jsonArray[i].corewords + "</span><br/>";
-        relatedContent += "关键词有："+ window.jsonArray[i].corewords + ";";
-        if (window.jsonArray[i].participant != "") {
+        code += "<span class = 'robot-answer-corewd'>" + interestData[i].corewords + "</span><br/>";
+        // relatedContent += "关键词有："+ interestData[i].corewords + ";";
+        if (interestData[i].participant != "") {
             code += "<span style='font-weight: bold'>参与者：</span>";
-            code += "<span class='robot-answer-participant'>" + window.jsonArray[i].participant + "</span><br/>";
-            relatedContent += "参与者有："+ window.jsonArray[i].participant + ";";
+            code += "<span class='robot-answer-participant'>" + interestData[i].participant + "</span><br/>";
+            relatedContent += "参与者有：" + interestData[i].participant + ";";
         }
-        if (window.jsonArray[i].eventLoc != "其他") {
+        if (interestData[i].eventLoc != "其他") {
             code += "<span style='font-weight: bold'>地点：</span>";
-            code += "<span class='robot-answer-loc'>" + window.jsonArray[i].eventLoc + "</span><br/>";
-            relatedContent += "地点："+ window.jsonArray[i].eventLoc + ";";
+            code += "<span class='robot-answer-loc'>" + interestData[i].eventLoc + "</span><br/>";
+            relatedContent += "地点：" + interestData[i].eventLoc + ";";
         }
         code += "<span style='float: left; font-weight: bold'>热度：</span>";
         code += "<div class='progress' style='float: left; margin-top: 5px; margin-bottom: 0; height: 10px; width: 150px;'>";
         code += "<div class='progress-bar progress-bar-danger' style='width:" + hotbar + "%' aria-valuenow='" + hotbar + "' aria-valuemin='0' aria-valuemax='100'>";
         code += "<div class='bar'></div></div></div>";
-        code += "<span style='margin: 0 0 0 0; font-size: 15px; color: #eb192d;'>&nbsp;" + window.jsonArray[i].hot + "</span></div></div>";
-        relatedContent += "今日热度为："+ window.jsonArray[i].hot + ";";
-        if(i%2==0)
-            code +="</div>";
+        code += "<span style='margin: 0 0 0 0; font-size: 15px; color: #eb192d;'>&nbsp;" + interestData[i].hot + "</span></div></div>";
+        relatedContent += "今日热度为：" + interestData[i].hot + ";";
+        if (i % 2 == 0)
+            code += "</div>";
         else
-            code +="</div></div>";
+            code += "</div></div>";
     }
     $('.sk-circle').hide();
     $('#interest').html(code).show();
     speakText(relatedContent);
+}
+
+function speakText(contentText) {
+    $.post("/act_robot/TtsServlet",
+        {
+            text: contentText
+        },
+        function (data) {
+            console.log(data);
+        });
 }
 
 function quickSort_hot(arr, left, right) {
@@ -191,13 +192,4 @@ function quickSort_hot(arr, left, right) {
     arr[j].hot = pivot;
     quickSort_hot(arr, left, i - 1);
     quickSort_hot(arr, i + 1, right);
-}
-function speakText(contentText) {
-    $.post("/act_robot/TtsServlet",
-        {
-            text: contentText
-        },
-        function(data){
-            console.log(data);
-        });
 }

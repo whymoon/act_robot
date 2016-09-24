@@ -1,7 +1,8 @@
 /**
  * Created by my dell on 2016/9/22.
  */
-window.onload = function(){
+$(document).ready(function(){
+    speakText("");
     var canvas = document.getElementById('canvas'),  //获取canvas元素
         context = canvas.getContext('2d'),  //获取画图环境，指明为2d,二维
         centerX = canvas.width/2,   //Canvas中心点x轴坐标
@@ -53,4 +54,14 @@ window.onload = function(){
                     blueCircle(parseInt(data));
                 });
     },1000);//时间以毫秒算
-};
+});
+
+function speakText(contentText) {
+    $.post("/act_robot/TtsServlet",
+        {
+            text: contentText
+        },
+        function(data){
+            console.log(data);
+        });
+}

@@ -3,9 +3,11 @@
  */
 var NUM_PRINT_DATA = 6;
 $(document).ready(function () {
+    speakText("");
     hideAll();
     ring();
     $('#microphone').click(function () {
+        speakText("");
         // speakText(text).stop();
         $('.weibo_line').hide();
         $('.sk-three-bounce').fadeIn();
@@ -42,6 +44,7 @@ function hideAll(){
     $('#begin-loading').show();
 }
 function ring() {
+    speakText($('#title').text());
     $.get("/act_robot/RingServlet?ring=yes",function(data){
         var number;
         console.log(data.latestEvent);
@@ -51,11 +54,13 @@ function ring() {
             number = NUM_PRINT_DATA;
         quickSort_hot(data.latestEvent,0,number-1);
         var code = "";
+        var speakContent = "";
         for(var i = 0; i < number; i++){
             if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
                 code += "<div class='bs-callout bs-callout-primary'>";
-                code += "<h4>" + data.latestEvent[i].description + "<small>"+data.latestEvent[i].hot+"</small></h4>";
+                code += "<h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +"</h4>";
                 code += "</div>";
+                speakContent += data.latestEvent[i].description + ";";
             }
         }
         // code += "<h3>......</h3>";
@@ -63,6 +68,7 @@ function ring() {
         $('#content').html(code);
         $('#begin-loading').hide();
         $('#content').show();
+        speakText(speakContent);
     });
 }
 function getAnswer(question) {
@@ -88,13 +94,13 @@ function getAnswer(question) {
             code += "<div class='weibo_line'>";
             code += "<div class='event_desc'>";
             code += "<span class='badge badge-warning'>" + (i + 1) + "</span>";
-            code += "<a href='#' class='robot-answer-title'>" + data.content[i].description + "</a><br/></div>";
+            code += "&nbsp;&nbsp;<a href='#' class='robot-answer-title'>" + data.content[i].description + "</a><br/></div>";
             var j = i+1;
             relatedContent += j+ ";"+data.content[i].description + ";";
             code += "<div style='margin-left: 5px; margin-bottom: 3px'>";
             code += "<span class='corewd' style='font-weight: bold'>关键词：</span>";
             code += "<span class = 'robot-answer-corewd'>" + data.content[i].corewords + "</span><br/>";
-            relatedContent += "关键词有："+ data.content[i].corewords + ";";
+            //relatedContent += "关键词有："+ data.content[i].corewords + ";";
             if (data.content[i].participant != "") {
                 code += "<span style='font-weight: bold'>参与者：</span>";
                 code += "<span class='robot-answer-participant'>" + data.content[i].participant + "</span><br/>";

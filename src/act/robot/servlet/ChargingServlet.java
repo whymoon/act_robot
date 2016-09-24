@@ -21,8 +21,7 @@ public class ChargingServlet extends HttpServlet{
         }
         int ran = (int) (Math.random()*100);
         String num = String.valueOf(ran);
-        response.setContentType("text/plain; charset=UTF-8");
-        response.getWriter().write(num);
+        response.getWriter().write("50");
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);

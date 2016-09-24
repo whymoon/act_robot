@@ -2,8 +2,11 @@
  * Created by Moon on 2016/7/30.
  */
 $(document).ready(function () {
+    speakText("");
     hideAll();
+    speakText($('#title').text());
     $('#microphone').click(function () {
+        speakText("");
         $('.sk-three-bounce').fadeIn();
         $('#user-speak').hide();
         $('#robot-answer').hide();
