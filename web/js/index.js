@@ -27,7 +27,7 @@ $(document).ready(function () {
     $('.trigger').click();
     setInterval(function(){
         $('.trigger').click();
-    },5000);
+    },3000);
 });
 
 function setBattery(n){
