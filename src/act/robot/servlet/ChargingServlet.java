@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by my dell on 2016/9/22.
@@ -21,7 +22,7 @@ public class ChargingServlet extends HttpServlet{
         }
         int ran = (int) (Math.random()*100);
         String num = String.valueOf(ran);
-        response.getWriter().write("50");
+        response.getWriter().write(num);
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);

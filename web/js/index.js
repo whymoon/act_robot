@@ -21,6 +21,9 @@ $(document).ready(function () {
     setInterval(function(){
         $.post("/act_robot/ChargingServlet",function (data) {
             setBattery(data);
+            if(data <= 10){
+                alert('Low Battery!');
+            }
         });
     },5000);
     //photo
