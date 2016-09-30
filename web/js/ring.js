@@ -63,8 +63,6 @@ function ring() {
                 speakContent += data.latestEvent[i].description + ";";
             }
         }
-        // code += "<h3>......</h3>";
-        //code += "</div>";
         $('#content').html(code);
         $('#begin-loading').hide();
         $('#content').show();

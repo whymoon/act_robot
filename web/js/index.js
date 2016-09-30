@@ -22,7 +22,7 @@ $(document).ready(function () {
         $.post("/act_robot/ChargingServlet",function (data) {
             setBattery(data);
             if(data <= 10){
-                alert('Low Battery!');
+                lowBattery();
             }
         });
     },5000);
@@ -39,6 +39,15 @@ function setBattery(n){
     $('#charge').text(n + "%");
 }
 
+function lowBattery() {
+    var r = confirm("Low Battery!");
+    if(r == true){
+        window.location.href="charging.html";
+        return true;
+    }else {
+        return false;
+    }
+}
 
 function dataURLtoBlob(dataUrl) {
     // Decode the dataURL
