@@ -19,17 +19,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="lib1" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://E:/tomcat" />
+          <root url="file://$MODULE_DIR$/web/lib" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="file://E:/tomcat/webapps/docs/appdev/sample/src" />
-        </SOURCES>
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/web/lib" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.0.36" level="application_server_libraries" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/web/WEB-INF/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/web/WEB-INF/lib" recursive="false" />
       </library>
     </orderEntry>
   </component>

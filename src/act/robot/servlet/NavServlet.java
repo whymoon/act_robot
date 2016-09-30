@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Created by my dell on 2016/9/8.
@@ -31,19 +32,44 @@ public class NavServlet extends HttpServlet {
         String des = request.getParameter("des");
         String returnCode = "error";
         System.out.println(text + " " + des);
+        String regex = "(带我去[\\u4e00-\\u9fa5]+)|" +
+                        "(我们去[\\u4e00-\\u9fa5]+)|" +
+                        "(请带我去[\\u4e00-\\u9fa5]+)|" +
+                        "(我想去[\\u4e00-\\u9fa5]+)|" +
+                        "(我要去[\\u4e00-\\u9fa5]+)|";
         if(des.equals("empty") && !text.equals("empty")){
-            if(text.startsWith("带我去")){
-                String tmpDes = text.substring(3);
-                if (destinations.containsKey(tmpDes)){
-                    System.out.println("去"+tmpDes);
-//                    String cmd = program + initialPose + " " + destinations.get(tmpDes);
-//                    ProcessBuilder process = new ProcessBuilder(cmd.split(" ")).directory(new File(dir));
-//                    process.start();
-                    NavHelper.start(destinations.get(tmpDes));
-//                    Runtime.getRuntime().exec(program + initialPose + " " + destinations.get(tmpDes).toString());
+            String tmpDes = "";
+            if(Pattern.matches(regex,text)==true) {
+                System.out.print("匹配成功！");
+                String [] strs = text.split("[请|带我去|带我们|我们去|吧|我想去]");
+                for(int i = 0;i<strs.length;i++){
+                    System.out.println(strs[i]);
+                    if(!strs[i].equals("")){
+                        tmpDes = strs[i];
+                        break;
+                    }
+                }
+                if (destinations.containsKey(tmpDes)) {
+                    System.out.println("去" + tmpDes);
+//                     NavHelper.start(destinations.get(tmpDes));
                     returnCode = tmpDes;
                 }
+
             }
+            else
+                System.out.print("匹配失败！");
+//            if(text.startsWith("带我去")||text.startsWith("我想去")||text.startsWith("我要去")){
+//                String tmpDes = text.substring(3);
+//                if (destinations.containsKey(tmpDes)){
+//                    System.out.println("去"+tmpDes);
+////                    String cmd = program + initialPose + " " + destinations.get(tmpDes);
+////                    ProcessBuilder process = new ProcessBuilder(cmd.split(" ")).directory(new File(dir));
+////                    process.start();
+//                    NavHelper.start(destinations.get(tmpDes));
+////                    Runtime.getRuntime().exec(program + initialPose + " " + destinations.get(tmpDes).toString());
+//                    returnCode = tmpDes;
+//                }
+//            }
         }
         else if(!des.equals("empty") && text.equals("empty")){
             if (destinations.containsKey(des)){
@@ -52,7 +78,9 @@ public class NavServlet extends HttpServlet {
 //                ProcessBuilder process = new ProcessBuilder(cmd.split(" ")).directory(new File(dir));
 //                process.redirectInput(ProcessBuilder.Redirect.INHERIT);
 //                process.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-                NavHelper.start(destinations.get(des));
+                System.out.print("进入start之前");
+//                NavHelper.start(destinations.get(des));
+                System.out.print("进入start之后");
 //                try {
 ////                    process.start().waitFor(1, TimeUnit.HOURS);
 //                } catch (InterruptedException e) {

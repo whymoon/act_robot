@@ -43,6 +43,9 @@ function hideAll(){
     $('#content').hide();
     $('#begin-loading').show();
 }
+function voice() {
+    speakText("");
+}
 function ring() {
     speakText($('#title').text());
     $.get("/act_robot/RingServlet?ring=yes",function(data){
@@ -58,7 +61,7 @@ function ring() {
         for(var i = 0; i < number; i++){
             if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
                 code += "<div class='bs-callout bs-callout-primary'>";
-                code += "<h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +"</h4>";
+                code += "<h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4>";
                 code += "</div>";
                 speakContent += data.latestEvent[i].description + ";";
             }
