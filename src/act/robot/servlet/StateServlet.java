@@ -1,5 +1,6 @@
 package act.robot.servlet;
 
+import act.robot.util.RobotHelper;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 
@@ -8,24 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 
 /**
  * Created by my dell on 2016/9/22.
  */
-public class ChargingServlet extends HttpServlet{
+public class StateServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String type = request.getParameter("type");
+        if(type.equals("battery")){
+            String num = (int)(RobotHelper.getBattery() * 100) + "";
+            response.getWriter().write(num);
         }
-        int ran = (int) (Math.random()*100);
-        String num = String.valueOf(ran);
-        response.getWriter().write(num);
+        else if(type.equals("isNavFinished")){
+            response.getWriter().write(RobotHelper.isNavFinished() + "");
+        }
+
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);
-
     }
 }

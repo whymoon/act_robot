@@ -19,7 +19,7 @@ $(document).ready(function () {
 
     //battery
     setInterval(function(){
-        $.post("/act_robot/ChargingServlet",function (data) {
+        $.get("/act_robot/StateServlet?type=battery",function (data) {
             setBattery(data);
             if(data <= 10){
                 lowBattery();

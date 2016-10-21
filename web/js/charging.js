@@ -49,7 +49,7 @@ $(document).ready(function(){
     setInterval(function(){
         context.clearRect(0, 0, canvas.width, canvas.height);
         whiteCircle();
-        $.post("/act_robot/ChargingServlet",function (data) {
+        $.get("/act_robot/StateServlet?type=battery",function (data) {
                     text(parseInt(data));
                     blueCircle(parseInt(data));
                 });

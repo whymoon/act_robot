@@ -10,7 +10,7 @@ public class DBConnector {
 	private static String driver = "com.mysql.jdbc.Driver";
 	private static String url = "jdbc:mysql://127.0.0.1:3306/robot";
 	private static String user = "root";
-	private static String password = "xiucaituzi123x";
+	private static String password = "robot";
 	
 	public static Connection  connect() 
 	{
