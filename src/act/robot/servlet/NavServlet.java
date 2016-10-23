@@ -16,14 +16,47 @@ import java.util.regex.Pattern;
 public class NavServlet extends HttpServlet {
     private Map<String, List<Double>> destinations = new HashMap<>();
 //    private List<Double> initialPose = Arrays.asList(82.62, 32.78, 1.57, 0.0, 0.0, 0.0);
-    private List<Double> initialPose = Arrays.asList(16.0, 11.6, 0.0, 0.0, 0.0, 0.0);
+    private List<Double> initialPose = Arrays.asList(81.85, 72.25, Math.PI / 2, 0.0, 0.0, 0.0);
     private boolean isFirst = true;
 
+    /*
+    电梯间,78.53,81.57,-Math.PI / 2
+    510,86.64,71.27,Math.PI / 2
+    508,86.63,78.38,-Math.PI / 2
+    507,86.67,86.60,-Math.PI / 2
+    506,86.67,96.69,-Math.PI / 2
+    505,86.60,102.75,-Math.PI / 2
+    504,86.46,103.42,0
+    503,76.40,103.42,0
+    502,68.11,103.22,0
+    茶水间a,56.39,96.48,-Math.PI / 2
+    茶水间b,56.23,88.74,-Math.PI / 2
+    501,56.12,86.63,-Math.PI / 2
+    大厅,75.27,72.19,Math.PI / 2
+    男厕所,73.27,35.Math.PI / 2,Math.PI
+    女厕所,80.22,35.85,0
+
+     */
     public NavServlet() {
-//        destinations.put("电梯间", Arrays.asList(74.67, 40.67, 0.0));
-        destinations.put("电梯间", Arrays.asList(11.54, 12.63, 0.0));
-        destinations.put("会议室", Arrays.asList(82.62, 32.78, 0.0));
+        destinations.put("电梯间", Arrays.asList(78.53, 81.57, -Math.PI / 2));
+        destinations.put("会议室", Arrays.asList(86.64, 71.27, Math.PI / 2));
         destinations.put("初始点", Arrays.asList(initialPose.get(0), initialPose.get(1), initialPose.get(2)));
+        destinations.put("大厅", Arrays.asList(initialPose.get(0), initialPose.get(1), initialPose.get(2)));
+        destinations.put("510", Arrays.asList(86.64, 71.27, Math.PI / 2));
+        destinations.put("508", Arrays.asList(86.63,78.38,-Math.PI / 2));
+        destinations.put("507", Arrays.asList(86.67,86.60,-Math.PI / 2));
+        destinations.put("506", Arrays.asList(86.67,96.69,-Math.PI / 2));
+        destinations.put("505", Arrays.asList(86.60,102.75,-Math.PI / 2));
+        destinations.put("504", Arrays.asList(86.46,103.42,0.0));
+        destinations.put("503", Arrays.asList(76.40,103.42,0.0));
+        destinations.put("502", Arrays.asList(68.11,103.22,0.0));
+        destinations.put("501", Arrays.asList(56.12,86.63,-Math.PI / 2));
+        destinations.put("男厕所", Arrays.asList(73.27,35.90,Math.PI));
+        destinations.put("女厕所", Arrays.asList(80.22,35.85,0.0));
+        destinations.put("洗手间", Arrays.asList(76.50,35.85,0.0));
+        destinations.put("茶水间a", Arrays.asList(56.39,96.48,-Math.PI / 2));
+        destinations.put("茶水间b", Arrays.asList(56.23,88.74,-Math.PI / 2));
+        destinations.put("茶水间", Arrays.asList(56.23,88.74,-Math.PI / 2));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

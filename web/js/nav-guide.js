@@ -5,26 +5,20 @@ $(document).ready(function () {
     speakText("");
     $('#guide_back').hide();
     $('#guide_finish').hide();
-    // setInterval(function(){
-    //     $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
-    //         if(data == true)
-    //             finish();
-    //     });
-    // },1000);//时间以毫秒算
+    var isFinished = false;
+    setInterval(function(){
+        $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
+            if(!isFinished && data == "true"){
+                isFinished = true;
+                finish();
+            }
+
+        });
+    },1000);//时间以毫秒算
     $('#return').click(function () {
         window.location.href="nav.html";
     });
-    $('#back').click(function () {
-        $('#guide_answer').hide();
-        $('#guide_back').show();
-        $('#guide_finish').hide();
-        speakText("正在返航");
-        $.get("/act_robot/NavServlet?text=back&des=empty", function (data) {
 
-        });
-
-        setTimeout(back,5000);
-    });
 });
 function finish() {
     $('#guide_answer').hide();
@@ -33,6 +27,27 @@ function finish() {
 
     $('#continue').click(function () {
         window.location.href="nav.html";
+    });
+
+
+    $('#back').click(function () {
+        $('#guide_answer').hide();
+        $('#guide_back').show();
+        $('#guide_finish').hide();
+        speakText("正在返航");
+        var isBack = false;
+        $.get("/act_robot/NavServlet?text=back&des=back", function (data) {
+            setInterval(function(){
+                $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
+                    if(!isBack && data == "true"){
+                        isBack = true;
+                        back();
+                    }
+
+                });
+            },1000);//时间以毫秒算
+        });
+
     });
 }
 function back() {
