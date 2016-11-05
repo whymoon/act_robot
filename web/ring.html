@@ -13,16 +13,37 @@
         h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
 
     </style>
+
+
     <title>热门事件</title>
 </head>
 <body>
+<div class="modal" id="dialog" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Details:</h4>
+            </div>
+            <div class="modal-body">
+                <p id = "detail">模态弹出窗主体内容</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">我知道了</button>
+                <!--<button type="button" class="btn btn-primary">保存</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="container">
-    <br/>
     <br/>
     <div class="row">
         <div class="row" >
-             <h2 id="question">请问您想要了解的内容</h2>
-             <h2 id="title">以下是今天的热门事件 <img style="cursor:pointer" id="quiet" src="image/quiet.png" width="40" height="40" onclick="voice()"></a>:</h2>
+             <h2 id="question">请问您想要了解的内容<img style="cursor:pointer" id="quiet1" src="image/quiet.png" width="30" height="30" onclick="voice()">:</h2>
+             <h2 id="title">以下是今天的热门事件 <img style="cursor:pointer" id="quiet" src="image/quiet.png" width="30" height="30" onclick="voice()"></a>:</h2>
 
         </div>
         <div class="row" id = "content">
@@ -58,7 +79,13 @@
         <div class="col-md-4" align="center">
             <img src="image/microphone.png" width="120px" height="120px" id="microphone" class="img-circle" />
         </div>
+        <div  style="position:fixed; bottom:0px;right:5px; width:100px; height:100px;">
+            <a href="index.html">
+                <img src="image/home.png" width="80px" height="80px"/>
+            </a>
+        </div>
     </div>
+
 
     <div class="sk-three-bounce">
         <div class="sk-child sk-bounce1"></div>
@@ -70,15 +97,16 @@
         <div class="sk-child sk-double-bounce2"></div>
     </div>
     <div id="padding-div" class="row" style="margin: 100px"></div>
-    <hr>
 
-    <footer>
-        <div align="center">
-        <a href="index.html">
-            <img src="image/home.png" width="50px", height="50px", class="image-circle">
-        </a>
-        <span>Powered by Moon</span>
-        </div>
-    </footer>
+    <!--<hr>-->
+
+    <!--<footer>-->
+        <!--<div align="center">-->
+        <!--<a href="index.html">-->
+            <!--<img src="image/home.png" width="50px", height="50px", class="image-circle">-->
+        <!--</a>-->
+        <!--<span>Powered by Moon</span>-->
+        <!--</div>-->
+    <!--</footer>-->
 </body>
 </html>

@@ -1,37 +1,129 @@
 /**
  * Created by my dell on 2016/8/17.
  */
-var NUM_PRINT_DATA = 6;
+var NUM_PRINT_DATA = 4;
+var NUM_PRINT_DATA_ring = 6;
+var i = 0;
+var t = self.setInterval('count()',1000);
 $(document).ready(function () {
     speakText("");
     hideAll();
     ring();
+    // $('.badge a').on("click","h4",function () {
+    //     alert("nishi");
+    // })
     $('#microphone').click(function () {
         speakText("");
-        // speakText(text).stop();
         $('.weibo_line').hide();
         $('.sk-three-bounce').fadeIn();
         $('#user-speak').hide();
         $('#robot-answer').hide();
         $('#microphone').hide();
         $('#title').hide();
-        $('#content').hide();
+        // $('#content').hide();
+        $('#content').show();
         $('#question').show();
+         $('#question-panel').hide();
+        $('#answer-panel').hide();
         $('#begin-loading').hide();
         $.get("/act_robot/IatServlet",function (data) {
             console.log(data);
-            $('#user-speak').text(data);
-            $('#user-speak').show();
-            $('#question-panel').fadeIn(2000);
-            $('#padding-div').hide()
-            $('.sk-three-bounce').hide();
-            $('.sk-double-bounce').show();
-            $('.sk-three-bounce1').hide();
-            getAnswer(data);
+            var ask = askForDetails(data);
+            if(ask == 1 | ask == 2 | ask == 3 | ask == 4 | ask == 5 | ask == 6){
+                var ask1 = document.getElementsByTagName("a")[ask-1];
+                var href = document.getElementsByClassName("badge")[ask-1].click;
+                speakText(ask);
+                console.log(ask1);
+                console.log(href);
+            }
+            else{
+                $('#content').hide();
+                $('#user-speak').text(data);
+                $('#user-speak').show();
+                $('#question-panel').fadeIn(2000);
+                $('#padding-div').hide()
+                $('.sk-three-bounce').hide();
+                $('.sk-double-bounce').show();
+                $('.sk-three-bounce1').hide();
+                getAnswer(data);
+            }
+
+            // }
         });
     })
 
+    $("body").click(function () {
+        i = 0;
+    })
 });
+function count(){
+    i++;
+    if(i>=300)
+        window.location.href='index.html';
+}
+function ring() {
+    speakText($('#title').text());
+    $.get("/act_robot/RingServlet?ring=yes",function(data){
+        var number;
+        console.log(data.latestEvent);
+        if(data.latestEvent.length < NUM_PRINT_DATA_ring)
+            number = data.latestEvent.length;
+        else
+            number = NUM_PRINT_DATA_ring;
+        quickSort_hot(data.latestEvent,0,number-1);
+        var code = "";
+        var speakContent = "";
+        for(var i = 0; i < number; i++){
+            if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
+                code += "<div class='bs-callout bs-callout-primary' >";
+                code += "<a   data-toggle='modal'  href='#dialog' onclick='openWin(\""+ data.latestEvent[i].description +"\",\""+ data.latestEvent[i].corewords +"\",\""+ data.latestEvent[i].eventId +"\");'><h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4></a>";
+                //code += "<a   data-toggle='modal'  href='#dialog' ><h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4></a>";
+                code += "</div>";
+                speakContent += data.latestEvent[i].description + ";";
+            }
+        }
+        $('#content').html(code);
+        $('#begin-loading').hide();
+        $('#content').show();
+        speakText(speakContent);
+    });
+}
+function askForDetails(text) {
+    var regex = "";
+    var str = "";
+    var num = "";
+    var des = 0;
+    regex += "(告诉我[\\u4e00-\\u9fa5]+)|" + "(我想看[\\u4e00-\\u9fa5]+)|" + "(我想知道[\\u4e00-\\u9fa5]+)|"
+        + "(我要看[\\u4e00-\\u9fa5]+)|" + "(我要知道[\\u4e00-\\u9fa5]+)|";
+    if(text.match(regex)){
+        str = text.match("第[一二三四五六]条");
+        if(str != null) {
+            for (var i = 0; i < str.length; i++) {
+                if (str[i] != "") {
+                    num = str[i];
+                    break;
+                }
+            }
+            if(text.match("一"))
+                des = 1;
+            else if(text.match("二"))
+                des = 2;
+            else if(text.match("三"))
+                des = 3;
+            else if(text.match("四"))
+                des = 4;
+            else if(text.match("五"))
+                des = 5;
+            else
+                des = 6;
+        }
+    }
+    $('.sk-three-bounce').hide();
+    $('.sk-double-bounce').hide();
+    $('#microphone').show();
+    return des;
+}
+
 function hideAll(){
     $('.sk-three-bounce').hide();
     $('.sk-double-bounce').hide();
@@ -46,32 +138,23 @@ function hideAll(){
 function voice() {
     speakText("");
 }
-function ring() {
-    speakText($('#title').text());
-    $.get("/act_robot/RingServlet?ring=yes",function(data){
-        var number;
-        console.log(data.latestEvent);
-        if(data.latestEvent.length < NUM_PRINT_DATA)
-            number = data.latestEvent.length;
-        else
-            number = NUM_PRINT_DATA;
-        quickSort_hot(data.latestEvent,0,number-1);
-        var code = "";
-        var speakContent = "";
-        for(var i = 0; i < number; i++){
-            if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
-                code += "<div class='bs-callout bs-callout-primary'>";
-                code += "<h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4>";
-                code += "</div>";
-                speakContent += data.latestEvent[i].description + ";";
-            }
-        }
-        $('#content').html(code);
-        $('#begin-loading').hide();
-        $('#content').show();
-        speakText(speakContent);
-    });
+function openWin(description,words,Id)
+{
+    var year = parseInt(Id.substr(0,4));
+    var month = parseInt(Id.substr(4,2));
+    var day = parseInt(Id.substr(6,2));
+    var hour = parseInt(Id.substr(8,2));
+    var minute = parseInt(Id.substr(10,2));
+    var date = year + "年"+ month  + "月"+ day  + "日"+ hour + "时"+minute+"分";
+    var s = "<h4>标题：</h4><p>"+description+"</p>"+
+        "<h4>关键字：</h4><p>"+words+"</p>" +
+        "<h4>时间：</h4><p>"+ date+"</p>"
+    $('#dialog').on('shown.bs.modal', function () {
+        document.getElementById("detail").innerHTML =s;
+    })
 }
+
+
 function getAnswer(question) {
     $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
         console.log(data);
@@ -95,7 +178,7 @@ function getAnswer(question) {
             code += "<div class='weibo_line'>";
             code += "<div class='event_desc'>";
             code += "<span class='badge badge-warning'>" + (i + 1) + "</span>";
-            code += "&nbsp;&nbsp;<a href='#' class='robot-answer-title'>" + data.content[i].description + "</a><br/></div>";
+            code += "&nbsp;&nbsp;<a href='#' class='robot-answer-title' style='font-size: large'>" + data.content[i].description + "</a><br/></div>";
             var j = i+1;
             relatedContent += j+ ";"+data.content[i].description + ";";
             code += "<div style='margin-left: 5px; margin-bottom: 3px'>";

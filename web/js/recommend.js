@@ -1,6 +1,8 @@
 /**
  * Created by my dell on 2016/8/21.
  */
+var i = 0;
+var t = self.setInterval('count()',1000);
 $(document).ready(function () {
     speakText("");
     hideAll();
@@ -8,7 +10,7 @@ $(document).ready(function () {
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
     $('#webcam').on("image", function (event, dataUrl) {
-        $("#picture").append('<img src="' + dataUrl + '" width="640px" height="480px">');
+        $("#picture").append('<img src="' + dataUrl + '" width="247px" height="207px">');
         var file = dataURLtoBlob(dataUrl);
         uploadImage(file);
     });
@@ -36,8 +38,18 @@ $(document).ready(function () {
         window.location.href = "input_face.html";
     })
     speakText($('#header-title').text());
+    $("body").click(function () {
+        i = 0;
+    })
 });
-
+function count(){
+    i++;
+    if(i>=300)
+        window.location.href='index.html';
+}
+function voice() {
+    speakText("");
+}
 function hideAll() {
     $('.sk-circle').hide();
     $('#title').hide();

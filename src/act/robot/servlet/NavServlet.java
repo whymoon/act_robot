@@ -1,6 +1,6 @@
 package act.robot.servlet;
 
-import act.robot.util.RobotHelper;
+//import act.robot.util.RobotHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -105,12 +105,12 @@ public class NavServlet extends HttpServlet {
         if (destinations.containsKey(des)) {
             System.out.println("去" + des);
             if(isFirst){
-                RobotHelper.setInitialPose(initialPose);
+                //RobotHelper.setInitialPose(initialPose);
 
                 isFirst = false;
             }
 
-            RobotHelper.setGoal(destinations.get(des));
+            //RobotHelper.setGoal(destinations.get(des));
             return true;
         }
         return false;

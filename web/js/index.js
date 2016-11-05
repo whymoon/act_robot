@@ -2,6 +2,8 @@
  * Created by songxinxin on 2016/9/21.
  */
 lastRes = "null";
+var i = 0;
+var t = self.setInterval('count()',1000);
 $(document).ready(function () {
     speakText("");
     $('#webcam').resize(640, 480);
@@ -31,8 +33,18 @@ $(document).ready(function () {
     setInterval(function(){
         $('.trigger').click();
     },3000);
+    $("body").click(function () {
+        if($(e.target().is('trigger')))
+            i = i;
+        else
+             i = 0;
+    })
 });
-
+function count(){
+    i++;
+    if(i>=300)
+        window.location.href='screenSaver.html';
+}
 function setBattery(n){
     console.log(n);
     $('#charge').width(n + "%");

@@ -1,6 +1,8 @@
 /**
  * Created by Moon on 2016/7/30.
  */
+var i = 0;
+var t = self.setInterval('count()',1000);
 $(document).ready(function () {
     speakText("");
     hideAll();
@@ -22,8 +24,15 @@ $(document).ready(function () {
             getAnswer(data);
         });
     })
+    $("body").click(function () {
+        i = 0;
+    })
 });
-
+function count(){
+    i++;
+    if(i>=300)
+        window.location.href='index.html';
+}
 function hideAll() {
     $('.sk-three-bounce').hide();
     $('.sk-double-bounce').hide();

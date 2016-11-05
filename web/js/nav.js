@@ -1,6 +1,8 @@
 /**
  * Created by my dell on 2016/9/8.
  */
+var i = 0;
+var t = self.setInterval('count()',1000);
 $(document).ready(function () {
     speakText("");
     hideAll();
@@ -35,6 +37,9 @@ $(document).ready(function () {
             });
         });
     });
+    $("body").click(function () {
+        i = 0;
+    })
 
     $('.destination').click(function () {
         $('#guide_answer span').text($(this).text());
@@ -62,7 +67,11 @@ $(document).ready(function () {
     });
 
 });
-
+function count(){
+    i++;
+    if(i>=300)
+        window.location.href='index.html';
+}
 
 function hideAll() {
     $('.sk-three-bounce').hide();
