@@ -26,6 +26,7 @@ $(document).ready(function () {
         $('#take-picture').hide();
         $('#update').show();
         $('.trigger').click();
+
         document.getElementById("change").innerHTML =
             "<button type='button' class='btn btn-primary btn-lg' id='take-picture'>拍摄</button>";
         document.getElementById("change").innerHTML =
