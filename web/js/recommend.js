@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
     $('#webcam').on("image", function (event, dataUrl) {
-        $("#picture").append('<img src="' + dataUrl + '" width="247px" height="207px">');
+        $("#picture").append('<img src="' + dataUrl + '" width="414px" height="310px">');
         var file = dataURLtoBlob(dataUrl);
         uploadImage(file);
     });
@@ -26,6 +26,10 @@ $(document).ready(function () {
         $('#take-picture').hide();
         $('#update').show();
         $('.trigger').click();
+        document.getElementById("change").innerHTML =
+            "<button type='button' class='btn btn-primary btn-lg' id='take-picture'>拍摄</button>";
+        document.getElementById("change").innerHTML =
+            "<button type='button' class='btn btn-danger btn-lg' id='input_information' style='float: left'>录入信息</button>";
         $('#title').hide();
         $('#name').show();
         $('.sk-circle').show();

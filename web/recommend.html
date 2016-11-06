@@ -31,30 +31,33 @@
             <div id="webcam" style="width:640px; height:480px"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8" id="picture" align="center" ></div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4" align="center">
-            <button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>
-            <button type="button" class="btn btn-success btn-lg" id="update">重拍</button>
-            <button type="button" class="btn btn-danger btn-lg" id="input_information">录入信息</button>
-        </div>
+    <div>
+        <div ></div>
+        <div id="picture" align="center" style="float: left"></div>
     </div>
     <div class = "row">
-        <div class="col-md-4"></div>
+        <div class="col-md-2"></div>
         <div class="col-md-4">
             <h3 id = "name" align="center"></h3>
             <h3 id="title" align="center">以下可能是您感兴趣的内容<img style="cursor:pointer" id="quiet2" src="image/quiet.png" width="30" height="30" onclick="voice()">:</h3>
+            <div id = "interest">
+
+            </div>
+        </div>
+
+    </div>
+
+    <br/>
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-success btn-lg" id="update" style="float: right">重拍</button>
+        </div>
+        <div class="col-md-8" align="center" id="change">
+            <button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>
+            <button type="button" class="btn btn-danger btn-lg" id="input_information">录入信息</button>
         </div>
     </div>
 
-    <div class = "row well" id = "interest">
-
-    </div>
     <div class="sk-circle">
         <div class="sk-circle1 sk-child"></div>
         <div class="sk-circle2 sk-child"></div>
