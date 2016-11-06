@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -7,11 +7,18 @@
     <link rel="stylesheet" href="css/bs-callout.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/photobooth_min.js"></script>
-    <script type="text/javascript" src="js/recommend.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/globalUtil.js"></script>
+    <script type="text/javascript" src="js/recommend.js"></script>
+
     <style>
-        body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
-        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+        body {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif;
+        }
+
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+        }
 
     </style>
     <title>个性推荐</title>
@@ -20,27 +27,28 @@
 <div class="container">
     <br/>
     <div class="row">
-        <div class="col-md-12" >
+        <div class="col-md-12">
             <h2 id="header-title" align="center">请正对机器人，我们将根据您的身份信息，推荐您可能感兴趣的内容。</h2>
         </div>
     </div>
     <br/>
-    <div class="row" >
+    <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8" align="center">
             <div id="webcam" style="width:640px; height:480px"></div>
         </div>
     </div>
     <div>
-        <div ></div>
+        <div></div>
         <div id="picture" align="center" style="float: left"></div>
     </div>
-    <div class = "row">
+    <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-4">
-            <h3 id = "name" align="center"></h3>
-            <h3 id="title" align="center">以下可能是您感兴趣的内容<img style="cursor:pointer" id="quiet2" src="image/quiet.png" width="30" height="30" onclick="voice()">:</h3>
-            <div id = "interest">
+            <h3 id="name" align="center"></h3>
+            <h3 id="title" align="center">以下可能是您感兴趣的内容<img style="cursor:pointer" id="quiet2" src="image/quiet.png"
+                                                           width="30" height="30" onclick="voice()">:</h3>
+            <div id="interest">
 
             </div>
         </div>

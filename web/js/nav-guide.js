@@ -1,126 +1,127 @@
 /**
  * Created by my dell on 2016/9/8.
  */
-var i = 0;
-var t = self.setInterval('count()',1000);
+var STATE_GUIDING = 0;
+var STATE_STOP = 1;
+var STATE_BACKING = 2;
+var STATE_GUIDE_FINISHED = 3;
+var STATE_BACK_FINISHED = 4;
+var state = STATE_GUIDING;
+
+var count = 0;
+var tipText = "";
+var stopLastState = STATE_GUIDING;
 $(document).ready(function () {
     speakText("");
-    $('#guide_back').hide();
-    $('#guide_finish').hide();
-    $('#guide_select').show();
-    $('#guide_stop_finish').hide();
-    $('#guide_stop').click(function () {
-        stop();
-    })
-    $('#back1').click(function () {
-        goback();
-    })
-    var isFinished = false;
-    setInterval(function(){
-        $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
-            if(!isFinished && data == "true"){
-                isFinished = true;
-                finish();
-            }
+    tipText = $('#nav-tips').text();
+    $('#guide-finish').hide();
+    $('#guide-stop').hide();
 
-        });
-    },1000);//时间以毫秒算
-    $('#return').click(function () {
-        window.location.href="nav.html";
+    $('.stop').click(function () {
+        stop();
+    });
+    $('.back').click(function () {
+        goBack();
+    });
+    $('.continue').click(function () {
+        continueGuide();
+    });
+    $('.detail').click(function () {
+
+    });
+    $('.return').click(function () {
+        window.location.href = "nav.html";
+    });
+
+    setInterval(function () {
+        if(state == STATE_GUIDING){
+            $.get("/act_robot/StateServlet?type=isNavFinished", function (data) {
+                console.log("guide" + data);
+                if (data == "true") {
+                    guideFinish();
+                }
+            });
+        }
+    }, 1000);//时间以毫秒算
+
+    setInterval(function () {
+        if (state != STATE_GUIDE_FINISHED)
+            return;
+        count++;
+        if (count >= 600)
+            goBack();
+    }, 1000);
+    $("body").click(function (e) {
+        count = 0;
     });
 });
-function count(){
-    if($("#guide_finish").is(":hidden")==false)
+
+function count() {
+    if ($("#guide-finish").is(":hidden") == false)
         i++;
     else
         i = 0;
-    if(i>=10){
+    if (i >= 10) {
         goback();
         window.location.href = 'index.html';
     }
 }
-function  goback() {
-    $('#guide_answer').hide();
-    $('#guide_back').show();
-    $('#guide_finish').hide();
-    $('#guide_select').hide();
-    $('#guide_stop_finish').hide();
+function goBack() {
+    state = STATE_BACKING;
+    $('#nav-tips').text("正在返航");
+    $('#guiding').show();
+    $('#guide-stop').hide();
+    $('#guide-finish').hide();
     speakText("正在返航");
-    var isBack = false;
     $.get("/act_robot/NavServlet?text=back&des=back", function (data) {
-        setInterval(function(){
-            $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
-                if(!isBack && data == "true"){
-                    isBack = true;
-                    back();
-                }
-
-            });
-        },1000);//时间以毫秒算
+        setInterval(function () {
+            if(state == STATE_BACKING){
+                $.get("/act_robot/StateServlet?type=isNavFinished", function (data) {
+                    console.log("back" + data);
+                    if (data == "true") {
+                        backFinsih();
+                    }
+                });
+            }
+        }, 1000);//时间以毫秒算
     });
 }
 function stop() {
-    $('#guide_answer').hide();
-    $('#guide_select').hide();
-    $('#guide_stop_finish').show();
-    $('#guide_finish').hide();
-    $('#selection').hide();
-    speakText("导航已停止，请选择返航或继续导航");
-
-    $('#continue').click(function () {
-        window.location.href="nav.html";
-    });
-
-
-    $('#back').click(function () {
-        goback();
-    });
+    stopLastState = state;
+    state = STATE_STOP;
+    $('#guiding').hide();
+    $('#guide-stop').show();
+    tipText = $('#nav-tips').text();
+    speakText("导航已停止，请选择返航或继续");
 }
-function finish() {
-    console.log("iddezhiwei"+i);
-    $('#guide_answer').hide();
-    $('#guide_select').hide();
-    $('#guide_finish').show();
-    $('#guide_stop_finish').hide();
-    $('#stop_selection').hide();
-    speakText("已经到达目的地，请选择返航或继续导航");
 
-    $('#stop_continue').click(function () {
-        window.location.href="nav.html";
-    });
-
-
-    $('#stop_back').click(function () {
-        goback();
-        // $('#guide_answer').hide();
-        // $('#guide_back').show();
-        // $('#guide_finish').hide();
-        // speakText("正在返航");
-        // var isBack = false;
-        // $.get("/act_robot/NavServlet?text=back&des=back", function (data) {
-        //     setInterval(function(){
-        //         $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
-        //             if(!isBack && data == "true"){
-        //                 isBack = true;
-        //                 back();
-        //             }
-        //
-        //         });
-        //     },1000);//时间以毫秒算
-        // });
-
-    });
+function guideFinish() {
+    state = STATE_GUIDE_FINISHED;
+    $('#guide-finish').show();
+    $('#guiding').hide();
+    speakText("已经到达目的地，请选择返航或去下一个地点");
 }
-function back() {
-    speakText("返航成功，have a good day!");
-    window.location.href="nav.html";
+
+function backFinsih() {
+    state = STATE_BACK_FINISHED;
+    speakText("返航成功");
+    setTimeout("window.location.href = 'nav.html'", 2000);
 }
+
+function continueGuide() {
+    state = stopLastState;
+    $('#nav-tips').text(tipText);
+    $('#guiding').show();
+    $('#guide-stop').hide();
+    speakText("继续导航");
+}
+
 function speakText(contentText) {
     $.post("/act_robot/TtsServlet",
         {
             text: contentText
         },
-        function(data){
-            console.log(data);
-        });
+        function (data) {
+        }
+    );
 }

@@ -6,10 +6,16 @@
     <link rel="stylesheet" href="css/spinkit.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/globalUtil.js"></script>
     <script src="js/nav.js"></script>
     <style>
-        body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
-        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+        body {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif;
+        }
+
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+        }
 
     </style>
     <title>智能向导</title>
@@ -17,31 +23,43 @@
 
 <body>
 
-<div class = "container">
+<div class="container">
     <br/>
     <br/>
     <br/>
     <br/>
-    <div class = "row">
-        <div class = "col-md-12">
-            <h2 id="guide1">请告诉我您要去哪里，例如：带我去会议室，带我去找XXX</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 id="guide1">请告诉我您要去哪里，例如：带我去会议室</h2>
             <br/>
-            <h3 id="guide2">或从以下列点击目的地</h3>
+            <h3 id="guide2">或从以下列表点击目的地</h3>
             <br/>
             <br/>
             <div class="row well">
                 <div class="col-md-2"></div>
                 <ul class="col-md-4 list-group">
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>501</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>502</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>503</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>504</h3></a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>5 0 1
+                    </h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>5 0 2
+                    </h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>5 0 3
+                    </h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>5 0 6
+                    </h3>
+                    </a></li>
                 </ul>
                 <ul class="col-md-4 list-group">
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>会议室</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>电梯间</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>洗手间</h3></a></li>
-                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>茶水间</h3></a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>会议室</h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>电梯间</h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>洗手间</h3>
+                    </a></li>
+                    <li class="destination"><a href="#"><h3><span class="glyphicon glyphicon-map-marker"></span>茶水间</h3>
+                    </a></li>
                 </ul>
             </div>
         </div>
@@ -53,12 +71,12 @@
 <br/>
 <br/>
 <div class="row">
-    <div class="col-md-4" ></div>
+    <div class="col-md-4"></div>
     <div class="col-md-4" align="center">
         <img src="image/microphone.png" width="120px" height="120px" id="microphone" class="img-circle"/>
     </div>
-    <div   style=" position:fixed;right:5px; bottom:0px;width:100px; height:100px;">
-        <a href="index.html" >
+    <div style=" position:fixed;right:5px; bottom:0px;width:100px; height:100px;">
+        <a href="index.html">
             <img src="image/home.png" width="80px" height="80px"/>
         </a>
     </div>

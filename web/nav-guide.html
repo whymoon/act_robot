@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -8,10 +8,15 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/nav-guide.js"></script>
     <style>
-        body{font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif;}
-        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+        body {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif;
+        }
+
+        h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead {
+            font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei UI", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+        }
     </style>
-    <title>nav-guide</title>
+    <title>正在导航</title>
 </head>
 <body>
 <br>
@@ -22,66 +27,53 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-1">
-        <button class="btn btn-default" id="return"><h4><span class="glyphicon glyphicon-chevron-left"></span>返回</h4></button>
+        <button class="btn btn-default return"><h4><span class="glyphicon glyphicon-chevron-left"></span>返回</h4>
+        </button>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px" id="guide_answer">
-        <div  align="center">
-
-            <h1 id="b1">正在导航至目的地，请跟着我哦</h1>
-            <div class="sk-rotating-plane"></div>
+<div id="guiding">
+    <div class="row">
+        <div class="col-md-12">
+            <div align="center">
+                <h1 id="nav-tips">正在导航至目的地，请跟着我哦</h1>
+                <div class="sk-rotating-plane"></div>
+            </div>
         </div>
     </div>
-    <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px" id="guide_back">
-        <div  align="center">
-
-            <h1 id="b2">正在返航</h1>
-            <div class="sk-rotating-plane"></div>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <div class="row">
+        <div class="col-md-12" id="guide-buttons">
+            <div align="center">
+                <button type="button" class="btn btn-danger btn-lg stop">停止</button>
+                <button type="button" class="btn btn-default btn-lg back">返航</button>
+                <button type="button" class="btn btn-primary btn-lg detail">详情</button>
+            </div>
         </div>
     </div>
-
-    <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px" id="guide_finish">
-        <div  align="center">
-            <h1 id="selection">已经到达目的地，您接下来的选择：</h1>
-            <br>
-            <br>
-            <button type="button" class="btn btn-success btn-lg" id="continue">继续导航</button>
-            <button type="button" class="btn btn-default btn-lg" id="back">返航</button>
-        </div>
-    </div>
-    <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px" id="guide_stop_finish">
-        <div  align="center">
-            <h1 id="stop_selection">导航停止，您接下来的选择：</h1>
-            <br>
-            <br>
-            <button type="button" class="btn btn-success btn-lg" id="stop_continue">继续导航</button>
-            <button type="button" class="btn btn-default btn-lg" id="stop_back">返航</button>
-        </div>
-    </div>
-
 </div>
 <div class="row">
-    <div class="col-md-12" style="margin-bottom: 50px; margin-top: 50px" id="guide_select">
+    <div class="col-md-12" id="guide-finish">
         <div align="center">
-            <button type="button" class="btn btn-warning btn-lg" id="guide_stop">停止导航</button>
-            <button type="button" class="btn btn-success btn-lg" id="back1"> 返航</button>
-            <button type="button" class="btn btn-primary btn-lg" id="detail">详情</button>
+            <h1>已经到达目的地，您接下来的选择：</h1>
+            <br>
+            <br>
+            <button type="button" class="btn btn-success btn-lg return">去下一个地点</button>
+            <button type="button" class="btn btn-default btn-lg back">返航</button>
+            <button type="button" class="btn btn-primary btn-lg detail">详情</button>
         </div>
-
+    </div>
+    <div class="col-md-12" id="guide-stop">
+        <div align="center">
+            <h1>导航停止，您接下来的选择：</h1>
+            <br>
+            <br>
+            <button type="button" class="btn btn-success btn-lg continue">继续</button>
+            <button type="button" class="btn btn-default btn-lg back">返航</button>
+            <button type="button" class="btn btn-primary btn-lg detail">详情</button>
+        </div>
     </div>
 </div>
 
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <div style="position:fixed; bottom:5px;right:5px; width:100px; height:100px;">
     <a href="index.html">
         <img src="image/home.png" width="80px" height="80px"/>

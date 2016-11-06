@@ -16,6 +16,7 @@ import java.io.PrintWriter;
  * Created by my dell on 2016/9/22.
  */
 public class StateServlet extends HttpServlet{
+    int count = 1;
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         String type = request.getParameter("type");
         if(type.equals("battery")){
@@ -23,9 +24,13 @@ public class StateServlet extends HttpServlet{
             response.getWriter().write(num);
         }
         else if(type.equals("isNavFinished")){
-            response.getWriter().write(RobotHelper.isNavFinished() + "");
+//            response.getWriter().write(RobotHelper.isNavFinished() + "");
+            count++;
+            if(count % 10 == 0)
+                response.getWriter().write(true + "");
+            else
+                response.getWriter().write(false + "");
         }
-
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);
