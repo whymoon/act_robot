@@ -7,6 +7,14 @@ $(document).ready(function () {
     speakText("");
     $('#guide_back').hide();
     $('#guide_finish').hide();
+    $('#guide_select').show();
+    $('#guide_stop_finish').hide();
+    $('#guide_stop').click(function () {
+        stop();
+    })
+    $('#back1').click(function () {
+        goback();
+    })
     var isFinished = false;
     setInterval(function(){
         $.get("/act_robot/StateServlet?type=isNavFinished",function (data) {
@@ -27,14 +35,16 @@ function count(){
     else
         i = 0;
     if(i>=10){
-            back();
-            window.location.href = 'index.html';
-        }
+        goback();
+        window.location.href = 'index.html';
+    }
 }
-function  back() {
+function  goback() {
     $('#guide_answer').hide();
     $('#guide_back').show();
     $('#guide_finish').hide();
+    $('#guide_select').hide();
+    $('#guide_stop_finish').hide();
     speakText("正在返航");
     var isBack = false;
     $.get("/act_robot/NavServlet?text=back&des=back", function (data) {
@@ -49,11 +59,13 @@ function  back() {
         },1000);//时间以毫秒算
     });
 }
-function finish() {
-    console.log("iddezhiwei"+i);
+function stop() {
     $('#guide_answer').hide();
-    $('#guide_finish').show();
-    speakText("已经到达目的地，请选择返航或继续导航");
+    $('#guide_select').hide();
+    $('#guide_stop_finish').show();
+    $('#guide_finish').hide();
+    $('#selection').hide();
+    speakText("导航已停止，请选择返航或继续导航");
 
     $('#continue').click(function () {
         window.location.href="nav.html";
@@ -61,7 +73,25 @@ function finish() {
 
 
     $('#back').click(function () {
-        back();
+        goback();
+    });
+}
+function finish() {
+    console.log("iddezhiwei"+i);
+    $('#guide_answer').hide();
+    $('#guide_select').hide();
+    $('#guide_finish').show();
+    $('#guide_stop_finish').hide();
+    $('#stop_selection').hide();
+    speakText("已经到达目的地，请选择返航或继续导航");
+
+    $('#stop_continue').click(function () {
+        window.location.href="nav.html";
+    });
+
+
+    $('#stop_back').click(function () {
+        goback();
         // $('#guide_answer').hide();
         // $('#guide_back').show();
         // $('#guide_finish').hide();
