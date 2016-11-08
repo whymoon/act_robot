@@ -24,13 +24,23 @@ public class StateServlet extends HttpServlet{
             response.getWriter().write(num);
         }
         else if(type.equals("isNavFinished")){
-//            response.getWriter().write(RobotHelper.isNavFinished() + "");
-            count++;
-            if(count % 10 == 0)
-                response.getWriter().write(true + "");
-            else
-                response.getWriter().write(false + "");
+            response.getWriter().write(RobotHelper.isNavFinished() + "");
+//            count++;
+//            if(count % 10 == 0)
+//                response.getWriter().write(true + "");
+//            else
+//                response.getWriter().write(false + "");
         }
+        else if(type.equals("stop")){
+            RobotHelper.changeNavMode(RobotHelper.MODE_STOP);
+        }
+        else if(type.equals("continueGuide")){
+            RobotHelper.changeNavMode(RobotHelper.MODE_CONTINUE);
+        }
+        else if(type.equals("detail")){
+
+        }
+        response.getWriter().write("done");
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);

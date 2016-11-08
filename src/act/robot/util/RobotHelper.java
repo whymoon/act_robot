@@ -22,12 +22,18 @@ public class RobotHelper {
     static ZMQ.Context context = null;
     static ZMQ.Socket requester = null;
 
+    private static final int HEADER_LEN = 6;
+
     private static byte MSG_REQ = 0x00;
     private static byte MSG_RES = 0x11;
 
     private static byte SET_INIPOSE = 0x05;
     private static byte SET_TARGET = 0x06;
+    private static byte SET_MODE = 0x07;
     private static byte GET_POSE = 0x00;
+
+    public static byte MODE_STOP = 0x00;
+    public static byte MODE_CONTINUE = 0x01;
 
     private static void initContext(){
         if(context == null){
@@ -68,7 +74,7 @@ public class RobotHelper {
 
     private static void sendPose(List<Double> pose, byte type){
         initContext();
-        ByteBuffer req = ByteBuffer.allocate(pose.size()*8 + 6);
+        ByteBuffer req = ByteBuffer.allocate(pose.size()*8 + HEADER_LEN);
         req.put(MSG_REQ).put(type).putInt(pose.size()*8);
         for(int i = 0; i < pose.size(); i++){
             req.putDouble(pose.get(i));
@@ -80,7 +86,7 @@ public class RobotHelper {
 
     private static byte[] getPose(){
         initContext();
-        ByteBuffer req = ByteBuffer.allocate(6);
+        ByteBuffer req = ByteBuffer.allocate(HEADER_LEN);
         req.put(MSG_REQ).put(GET_POSE).putInt(0);
         req.flip();
         requester.sendByteBuffer(req, 0);
@@ -92,7 +98,7 @@ public class RobotHelper {
 
         ByteBuffer resBuffer = ByteBuffer.wrap(getPose());
 
-        resBuffer.position(15*8 + 6);
+        resBuffer.position(15*8 + HEADER_LEN);
         return resBuffer.getDouble();
     }
 
@@ -100,11 +106,20 @@ public class RobotHelper {
 
         ByteBuffer resBuffer = ByteBuffer.wrap(getPose());
 
-        resBuffer.position(16*8 + 6);
+        resBuffer.position(16*8 + HEADER_LEN);
         byte res = resBuffer.get();
         if(res == 0x00)
             return false;
         else
             return true;
+    }
+
+    public static void changeNavMode(byte mode){
+        initContext();
+        ByteBuffer req = ByteBuffer.allocate(HEADER_LEN + 1);
+        req.put(MSG_REQ).put(SET_MODE).putInt(1).put(mode);
+        req.flip();
+        requester.sendByteBuffer(req, 0);
+        requester.recv();
     }
 }

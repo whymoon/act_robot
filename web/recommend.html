@@ -32,53 +32,70 @@
         </div>
     </div>
     <br/>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8" align="center">
-            <div id="webcam" style="width:640px; height:480px"></div>
-        </div>
-    </div>
-    <div>
-        <div></div>
-        <div id="picture" align="center" style="float: left"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-4">
-            <h3 id="name" align="center"></h3>
-            <h3 id="title" align="center">以下可能是您感兴趣的内容<img style="cursor:pointer" id="quiet2" src="image/quiet.png"
-                                                           width="30" height="30" onclick="voice()">:</h3>
-            <div id="interest">
+
+    <div class="well">
+        <div class="row">
+            <div class="col-md-2">
 
             </div>
+            <div class="col-md-8" align="center">
+                <div id="webcam" style="width:640px; height:480px"></div>
+                <br>
+                <button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>
+            </div>
         </div>
+        <div class="row" id="header-div">
+            <div class="col-md-2"></div>
+            <div class="col-md-1" align="right">
+                <br><br>
+                <a href="recommend.html"><img src="image/refresh.png" id="update" width="50px" height="50px"/></a>
+            </div>
+            <div class="col-md-2" id="picture-div" align="left">
+                <div id="picture" style="width:160px; height:120px"></div><br/>
+                <!--<button type="button" class="btn btn-success" id="update">重拍</button>-->
+            </div>
 
-    </div>
-
-    <br/>
-    <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-success btn-lg" id="update" style="float: right">重拍</button>
+            <div class="col-md-6">
+                <h3 id="name" align="left"></h3>
+                <h3 align="left" id="title"><span>以下可能是您感兴趣的内容：</span><span class="glyphicon glyphicon-volume-off quiet"></span></h3>
+            </div>
         </div>
-        <div class="col-md-8" align="center" id="change">
-            <button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>
-            <button type="button" class="btn btn-danger btn-lg" id="input_information">录入信息</button>
+        <div class="row" id="divide"><hr></div>
+        <div class="row">
+            <div class="col-md-12" id="interest"></div>
         </div>
-    </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-8">-->
+                <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-2"></div>-->
+            <!---->
+        <!--</div>-->
 
-    <div class="sk-circle">
-        <div class="sk-circle1 sk-child"></div>
-        <div class="sk-circle2 sk-child"></div>
-        <div class="sk-circle3 sk-child"></div>
-        <div class="sk-circle4 sk-child"></div>
-        <div class="sk-circle5 sk-child"></div>
-        <div class="sk-circle6 sk-child"></div>
-        <div class="sk-circle7 sk-child"></div>
-        <div class="sk-circle8 sk-child"></div>
-        <div class="sk-circle9 sk-child"></div>
-        <div class="sk-circle10 sk-child"></div>
-        <div class="sk-circle11 sk-child"></div>
-        <div class="sk-circle12 sk-child"></div>
+
+        <!--<div class="row">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-8" align="center" id="change">-->
+                <!--<button type="button" class="btn btn-primary btn-lg" id="take-picture">拍摄</button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="sk-circle">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
     </div>
     <br/>
     <div style="position:fixed; bottom:5px;right:5px; width:100px; height:100px;">

@@ -25,10 +25,10 @@ public class RingServlet extends HttpServlet{
         String str = "";
         request.setCharacterEncoding("UTF-8");
         String key = request.getParameter("wd");
-        String ring = request.getParameter("ring");
+        String type = request.getParameter("type");
 
         try {
-            if(ring.equals("yes"))
+            if(type.equals("latest"))
                 str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/newevent?type=latest");
             else
                 str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));

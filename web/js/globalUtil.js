@@ -39,6 +39,10 @@ $(document).ready(function () {
             }
         });
     }, BATTERY_CHECK_INTERVAL);
+
+    $('.quiet').click(function () {
+        speakText("");
+    });
 });
 
 function setBattery(n) {
@@ -83,4 +87,31 @@ function dataURLtoBlob(dataUrl) {
     return new Blob([new Uint8Array(array)], {
         type: 'image/png'
     });
+}
+
+function quickSort_hot(arr, left, right) {
+    var i, j, t, pivot;
+    if (left >= right) {
+        return;
+    }
+    pivot = arr[left].hot;
+    i = left;
+    j = right;
+    while (i != j) {
+        while (arr[j].hot <= pivot && i < j) {
+            j--;
+        }
+        while (arr[i].hot >= pivot && i < j) {
+            i++;
+        }
+        if (i < j) {
+            t = arr[i].hot;
+            arr[i].hot = arr[j].hot;
+            arr[j].hot = t;
+        }
+    }
+    arr[left].hot = arr[j].hot;
+    arr[j].hot = pivot;
+    quickSort_hot(arr, left, i - 1);
+    quickSort_hot(arr, i + 1, right);
 }

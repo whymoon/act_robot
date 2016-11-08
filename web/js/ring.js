@@ -2,161 +2,101 @@
  * Created by my dell on 2016/8/17.
  */
 var NUM_PRINT_DATA = 4;
-var NUM_PRINT_DATA_ring = 6;
-var i = 0;
-var t = self.setInterval('count()',1000);
+var NUM_PRINT_DATA_HOME_PAGE = 8;
+var latestEvent;
+var EVENT_TYPE = ["其它事件", "自然灾害事件", "安全事故灾难", "环境污染和生态破坏事故", "公共卫生事件",
+    "其它事件", "社会安全事件", "政治新闻事件", "军事事件", "社会焦点事件"];
+var MOOD_TYPE = ["中性", "高兴", "愤怒", "悲伤"];
 $(document).ready(function () {
-    speakText("");
     hideAll();
-    ring();
-    // $('.badge a').on("click","h4",function () {
-    //     alert("nishi");
-    // })
+    getRecentHotSpot();
     $('#microphone').click(function () {
         speakText("");
-        $('.weibo_line').hide();
-        $('.sk-three-bounce').fadeIn();
+        $('#listening').fadeIn();
         $('#user-speak').hide();
         $('#robot-answer').hide();
         $('#microphone').hide();
-        $('#title').hide();
-        // $('#content').hide();
-        $('#content').show();
-        $('#question').show();
-         $('#question-panel').hide();
+        $('#title').text("告诉我您感兴趣的关键词 ");
+        $('#content').hide();
+        $('#question-panel').hide();
         $('#answer-panel').hide();
         $('#begin-loading').hide();
-        $.get("/act_robot/IatServlet",function (data) {
+        $.get("/act_robot/IatServlet", function (data) {
             console.log(data);
-            var ask = askForDetails(data);
-            if(ask == 1 | ask == 2 | ask == 3 | ask == 4 | ask == 5 | ask == 6){
-                var ask1 = document.getElementsByTagName("a")[ask-1];
-                var href = document.getElementsByClassName("badge")[ask-1].click;
-                speakText(ask);
-                console.log(ask1);
-                console.log(href);
-            }
-            else{
-                $('#content').hide();
-                $('#user-speak').text(data);
-                $('#user-speak').show();
-                $('#question-panel').fadeIn(2000);
-                $('#padding-div').hide()
-                $('.sk-three-bounce').hide();
-                $('.sk-double-bounce').show();
-                $('.sk-three-bounce1').hide();
-                getAnswer(data);
-            }
-
-            // }
+            $('#user-speak').text(data);
+            $('#user-speak').show();
+            $('#question-panel').fadeIn(2000);
+            $('#listening').hide();
+            $('#searching').show();
+            getAnswer(data);
         });
-    })
-
-    $("body").click(function () {
-        i = 0;
-    })
+    });
 });
-function count(){
-    i++;
-    if(i>=300)
-        window.location.href='index.html';
-}
-function ring() {
+
+function getRecentHotSpot() {
     speakText($('#title').text());
-    $.get("/act_robot/RingServlet?ring=yes",function(data){
+    $.get("/act_robot/RingServlet?type=latest&wd=",function(data){
         var number;
         console.log(data.latestEvent);
-        if(data.latestEvent.length < NUM_PRINT_DATA_ring)
+        if(data.latestEvent.length < NUM_PRINT_DATA_HOME_PAGE)
             number = data.latestEvent.length;
         else
-            number = NUM_PRINT_DATA_ring;
+            number = NUM_PRINT_DATA_HOME_PAGE;
         quickSort_hot(data.latestEvent,0,number-1);
+        latestEvent = data.latestEvent;
         var code = "";
         var speakContent = "";
         for(var i = 0; i < number; i++){
             if(data.latestEvent[i].description.indexOf("天气预报") == -1) {
-                code += "<div class='bs-callout bs-callout-primary' >";
-                code += "<a   data-toggle='modal'  href='#dialog' onclick='openWin(\""+ data.latestEvent[i].description +"\",\""+ data.latestEvent[i].corewords +"\",\""+ data.latestEvent[i].eventId +"\");'><h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4></a>";
-                //code += "<a   data-toggle='modal'  href='#dialog' ><h4>" + "<span class='badge'>"+data.latestEvent[i].hot + "</span> &nbsp;&nbsp;" + data.latestEvent[i].description +" <small>地点:"+data.latestEvent[i].eventLoc+"</small></h4></a>";
-                code += "</div>";
+                code += "<div class='row bs-callout bs-callout-primary content-item'>";
+                code += "<div class='col-md-1' align='center'><span class='badge'>" + data.latestEvent[i].hot + "</span></div>";
+                code += "<div class='col-md-11'>";
+                code += "<a href='#' data-toggle='modal' data-target='#detail-modal'>";
+                code += "<h4><span>" + data.latestEvent[i].description + "<small>&nbsp;&nbsp;"
+                code += data.latestEvent[i].eventLoc + "</small></span></h4>";
+                code += "</a></div><div style='display: none' class='item-index'>" + i + "</div></div>";
                 speakContent += data.latestEvent[i].description + ";";
             }
         }
         $('#content').html(code);
         $('#begin-loading').hide();
         $('#content').show();
+        $('.content-item').click(function () {
+            var itemIndex = parseInt($(this).children("div.item-index").text());
+            console.log(parseInt(latestEvent[itemIndex].eventType) + " " + parseInt(latestEvent[itemIndex].emotion));
+            $('#detail-desc').text(latestEvent[itemIndex].description);
+            $('#detail-keywords').text(latestEvent[itemIndex].corewords);
+            $('#detail-loc').text(latestEvent[itemIndex].eventLoc);
+            $('#detail-hot').text(latestEvent[itemIndex].hot);
+            $('#detail-people').text(latestEvent[itemIndex].participant);
+            if(latestEvent[itemIndex].relatedWeibos.length > 0)
+                $('#detail-weibo').text(latestEvent[itemIndex].relatedWeibos[0].content);
+            else
+                $('#detail-weibo').text("无");
+            if((latestEvent[itemIndex].eventType+"").trim() != "")
+                $('#detail-type').text(EVENT_TYPE[parseInt(latestEvent[itemIndex].eventType)]);
+            else
+                $('#detail-type').text("未知");
+            if((latestEvent[itemIndex].emotion+"").trim() != "")
+                $('#detail-mood').text(MOOD_TYPE[parseInt(latestEvent[itemIndex].emotion)]);
+            else
+                $('#detail-mood').text("未知");
+        });
         speakText(speakContent);
     });
 }
-function askForDetails(text) {
-    var regex = "";
-    var str = "";
-    var num = "";
-    var des = 0;
-    regex += "(告诉我[\\u4e00-\\u9fa5]+)|" + "(我想看[\\u4e00-\\u9fa5]+)|" + "(我想知道[\\u4e00-\\u9fa5]+)|"
-        + "(我要看[\\u4e00-\\u9fa5]+)|" + "(我要知道[\\u4e00-\\u9fa5]+)|";
-    if(text.match(regex)){
-        str = text.match("第[一二三四五六]条");
-        if(str != null) {
-            for (var i = 0; i < str.length; i++) {
-                if (str[i] != "") {
-                    num = str[i];
-                    break;
-                }
-            }
-            if(text.match("一"))
-                des = 1;
-            else if(text.match("二"))
-                des = 2;
-            else if(text.match("三"))
-                des = 3;
-            else if(text.match("四"))
-                des = 4;
-            else if(text.match("五"))
-                des = 5;
-            else
-                des = 6;
-        }
-    }
-    $('.sk-three-bounce').hide();
-    $('.sk-double-bounce').hide();
-    $('#microphone').show();
-    return des;
-}
 
 function hideAll(){
-    $('.sk-three-bounce').hide();
-    $('.sk-double-bounce').hide();
-   $('#question-panel').hide();
+    $('#listening').hide();
+    $('#searching').hide();
+    $('#question-panel').hide();
     $('#answer-panel').hide();
-   $('#user-speak').hide();
+    $('#user-speak').hide();
     $('#robot-answer').hide();
-    $('#question').hide();
-    $('#content').hide();
-    $('#begin-loading').show();
 }
-function voice() {
-    speakText("");
-}
-function openWin(description,words,Id)
-{
-    var year = parseInt(Id.substr(0,4));
-    var month = parseInt(Id.substr(4,2));
-    var day = parseInt(Id.substr(6,2));
-    var hour = parseInt(Id.substr(8,2));
-    var minute = parseInt(Id.substr(10,2));
-    var date = year + "年"+ month  + "月"+ day  + "日"+ hour + "时"+minute+"分";
-    var s = "<h4>标题：</h4><p>"+description+"</p>"+
-        "<h4>关键字：</h4><p>"+words+"</p>" +
-        "<h4>时间：</h4><p>"+ date+"</p>"
-    $('#dialog').on('shown.bs.modal', function () {
-        document.getElementById("detail").innerHTML =s;
-    })
-}
-
 
 function getAnswer(question) {
-    $.get("/act_robot/RingServlet?wd=" + question+ "&ring=no", function (data) {
+    $.get("/act_robot/RingServlet?type=search&wd=" + question, function (data) {
         console.log(data);
         var number;
         console.log(data.content);
@@ -209,50 +149,13 @@ function getAnswer(question) {
                 code +="</div>";
             else
                 code +="</div></div>";
-
         }
         speakText(relatedContent);
         $('#answer-panel .panel-body').html(code);
         $('#answer-panel').fadeIn(2000);
-        $('#padding-div').hide();
-        $('.sk-three-bounce').hide();
-        $('.sk-double-bounce').hide();
+        $('#listening').hide();
+        $('#searching').hide();
         $('#microphone').show();
-        console.log("ring finished!");
     });
 }
-function quickSort_hot(arr, left, right) {
-    var i, j, t, pivot;
-    if (left >= right) {
-        return;
-    }
-    pivot = arr[left].hot;
-    i = left;
-    j = right;
-    while (i != j) {
-        while (arr[j].hot <= pivot && i < j) {
-            j--;
-        }
-        while (arr[i].hot >= pivot && i < j) {
-            i++;
-        }
-        if (i < j) {
-            t = arr[i].hot;
-            arr[i].hot = arr[j].hot;
-            arr[j].hot = t;
-        }
-    }
-    arr[left].hot = arr[j].hot;
-    arr[j].hot = pivot;
-    quickSort_hot(arr, left, i - 1);
-    quickSort_hot(arr, i + 1, right);
-}
-function speakText(contentText) {
-    $.post("/act_robot/TtsServlet",
-        {
-            text: contentText
-        },
-        function(data){
-            console.log(data);
-        });
-}
+

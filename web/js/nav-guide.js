@@ -6,11 +6,12 @@ var STATE_STOP = 1;
 var STATE_BACKING = 2;
 var STATE_GUIDE_FINISHED = 3;
 var STATE_BACK_FINISHED = 4;
-var state = STATE_GUIDING;
 
+var state = STATE_GUIDING;
 var count = 0;
 var tipText = "";
 var stopLastState = STATE_GUIDING;
+
 $(document).ready(function () {
     speakText("");
     tipText = $('#nav-tips').text();
@@ -27,7 +28,7 @@ $(document).ready(function () {
         continueGuide();
     });
     $('.detail').click(function () {
-
+        detail();
     });
     $('.return').click(function () {
         window.location.href = "nav.html";
@@ -36,7 +37,6 @@ $(document).ready(function () {
     setInterval(function () {
         if(state == STATE_GUIDING){
             $.get("/act_robot/StateServlet?type=isNavFinished", function (data) {
-                console.log("guide" + data);
                 if (data == "true") {
                     guideFinish();
                 }
@@ -56,16 +56,6 @@ $(document).ready(function () {
     });
 });
 
-function count() {
-    if ($("#guide-finish").is(":hidden") == false)
-        i++;
-    else
-        i = 0;
-    if (i >= 10) {
-        goback();
-        window.location.href = 'index.html';
-    }
-}
 function goBack() {
     state = STATE_BACKING;
     $('#nav-tips').text("正在返航");
@@ -77,7 +67,6 @@ function goBack() {
         setInterval(function () {
             if(state == STATE_BACKING){
                 $.get("/act_robot/StateServlet?type=isNavFinished", function (data) {
-                    console.log("back" + data);
                     if (data == "true") {
                         backFinsih();
                     }
@@ -93,6 +82,15 @@ function stop() {
     $('#guide-stop').show();
     tipText = $('#nav-tips').text();
     speakText("导航已停止，请选择返航或继续");
+    $.get("/act_robot/StateServlet?type=stop", function (data) {
+        console.log(data);
+    });
+}
+
+function detail() {
+    $.get("/act_robot/StateServlet?type=detail", function (data) {
+        console.log(data);
+    });
 }
 
 function guideFinish() {
@@ -114,6 +112,9 @@ function continueGuide() {
     $('#guiding').show();
     $('#guide-stop').hide();
     speakText("继续导航");
+    $.get("/act_robot/StateServlet?type=continueGuide", function (data) {
+        console.log(data);
+    });
 }
 
 function speakText(contentText) {
