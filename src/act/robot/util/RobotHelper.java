@@ -65,19 +65,24 @@ public class RobotHelper {
 //    }
 
     public static void setInitialPose(List<Double> initialPose){
-        sendPose(initialPose, SET_INIPOSE);
+
+        initContext();
+        ByteBuffer req = ByteBuffer.allocate(initialPose.size()*8 + HEADER_LEN);
+        req.put(MSG_REQ).put(SET_INIPOSE).putInt(initialPose.size()*8);
+        for(int i = 0; i < initialPose.size(); i++){
+            req.putDouble(initialPose.get(i));
+        }
+        req.flip();
+        requester.sendByteBuffer(req, 0);
+        requester.recv();
     }
 
     public static void setGoal(List<Double> goal){
-        sendPose(goal, SET_TARGET);
-    }
-
-    private static void sendPose(List<Double> pose, byte type){
         initContext();
-        ByteBuffer req = ByteBuffer.allocate(pose.size()*8 + HEADER_LEN);
-        req.put(MSG_REQ).put(type).putInt(pose.size()*8);
-        for(int i = 0; i < pose.size(); i++){
-            req.putDouble(pose.get(i));
+        ByteBuffer req = ByteBuffer.allocate(goal.size()*8 + HEADER_LEN + 2);
+        req.put(MSG_REQ).put(SET_TARGET).putInt(goal.size()*8).putShort((short) 1);
+        for(int i = 0; i < goal.size(); i++){
+            req.putDouble(goal.get(i));
         }
         req.flip();
         requester.sendByteBuffer(req, 0);

@@ -17,6 +17,7 @@ import java.io.PrintWriter;
  */
 public class StateServlet extends HttpServlet{
     int count = 1;
+    String program = "/home/robot/ulbrain_2dnav_ui-linux-x64/ulbrain_2dnav_ui &";
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         String type = request.getParameter("type");
         if(type.equals("battery")){
@@ -33,14 +34,18 @@ public class StateServlet extends HttpServlet{
         }
         else if(type.equals("stop")){
             RobotHelper.changeNavMode(RobotHelper.MODE_STOP);
+            response.getWriter().write("done");
         }
         else if(type.equals("continueGuide")){
             RobotHelper.changeNavMode(RobotHelper.MODE_CONTINUE);
+            response.getWriter().write("done");
         }
         else if(type.equals("detail")){
-
+            Runtime.getRuntime().exec(program);
+//            Process navProgram
+            response.getWriter().write("done");
         }
-        response.getWriter().write("done");
+
     }
     protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);

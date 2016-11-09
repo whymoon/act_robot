@@ -31,7 +31,7 @@ public class NavServlet extends HttpServlet {
         destinations.put("504", Arrays.asList(86.46,103.42,0.0));
         destinations.put("503", Arrays.asList(76.40,103.42,0.0));
         destinations.put("502", Arrays.asList(68.11,103.22,0.0));
-        destinations.put("501", Arrays.asList(56.12,86.63,-Math.PI / 2));
+        destinations.put("501", Arrays.asList(58.12,86.63,-Math.PI / 2));
         destinations.put("男厕所", Arrays.asList(73.27,35.90,Math.PI));
         destinations.put("女厕所", Arrays.asList(80.22,35.85,0.0));
         destinations.put("洗手间", Arrays.asList(76.50,35.85,0.0));
