@@ -108,4 +108,12 @@
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/HelloServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>InputUserServlet</servlet-name>
+        <servlet-class>act.robot.servlet.InputUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InputUserServlet</servlet-name>
+        <url-pattern>/InputUserServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

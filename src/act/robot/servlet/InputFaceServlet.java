@@ -66,6 +66,7 @@ public class InputFaceServlet extends HttpServlet {
             }
             httpRequests.personAddFace(new PostParameters().setPersonName(personName).setFaceId(faceIds.toArray(new String[0])));
             httpRequests.groupAddPerson(new PostParameters().setGroupName(FaceConstant.GROUP_NAME).setPersonName(personName));
+            httpRequests.trainIdentify(new PostParameters().setGroupName(FaceConstant.GROUP_NAME));
         }
         catch (Exception e){
             e.printStackTrace();
