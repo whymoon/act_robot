@@ -83,7 +83,7 @@ public class InputUserServlet extends HttpServlet {
                 }
                 if(addPerson(photos, params)){
                     res = "提交成功";
-                };
+                }
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

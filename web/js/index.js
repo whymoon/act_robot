@@ -14,6 +14,25 @@ $(document).ready(function () {
         alert('HTML5 webcam is not supported by your browser, please use latest firefox, opera or chrome!');
     }
     $('#webcam').hide();
+    $('#stop-background').hide();
+
+    $('#stop-background').click(function () {
+        if(window.confirm("此操作将关闭机器人程序，机器人状态获取、移动功能将无法正常工作，确定重启？")){
+            $.get("/act_robot/StateServlet?type=stopBackGround",function (data) {
+                $('#start-background').show();
+                $('#stop-background').hide();
+            });
+        }
+    });
+
+    $('#start-background').click(function () {
+        if(window.confirm("请将机器人放于初始位置，并保证正确的初始朝向，之后按确定启动机器人程序")){
+            $.get("/act_robot/StateServlet?type=startBackGround",function (data) {
+                $('#start-background').hide();
+                $('#stop-background').show();
+            });
+        }
+    });
 
     //photo
     $('.trigger').click();
