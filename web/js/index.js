@@ -21,6 +21,7 @@ $(document).ready(function () {
             $.get("/act_robot/StateServlet?type=stopBackGround",function (data) {
                 $('#start-background').show();
                 $('#stop-background').hide();
+                alert(data);
             });
         }
     });
@@ -30,6 +31,7 @@ $(document).ready(function () {
             $.get("/act_robot/StateServlet?type=startBackGround",function (data) {
                 $('#start-background').hide();
                 $('#stop-background').show();
+                alert(data);
             });
         }
     });
