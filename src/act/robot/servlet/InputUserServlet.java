@@ -48,6 +48,7 @@ public class InputUserServlet extends HttpServlet {
         upload.setHeaderEncoding("UTF-8");
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
+
         Map<String, String> params = new HashMap<>();
         String res = "提交失败，请重试";
         try {
@@ -63,22 +64,16 @@ public class InputUserServlet extends HttpServlet {
                 }
                 System.out.println(params);
                 List<ByteArrayOutputStream> photos = new ArrayList<ByteArrayOutputStream>();
+                int count = 0;
                 for (FileItem item : formItems) {
-                    if (!item.isFormField()) {
-                        InputStream fileContent = item.getInputStream();
+                    if (!item.isFormField() && item.getSize() > 0) {
+//                        System.out.println(item.getSize());
+                        InputStream is = item.getInputStream();
                         ByteArrayOutputStream photo = new ByteArrayOutputStream();
-                        BufferedImage image = Thumbnails.of(fileContent).scale(1).asBufferedImage();
-                        System.out.println(image.getWidth() + " " + image.getHeight());
-//                        ByteArrayOutputStream os = new ByteArrayOutputStream();
+                        BufferedImage image = Thumbnails.of(is).scale(1).asBufferedImage();
+//                        System.out.println(image.getWidth() + " " + image.getHeight());
                         ImageIO.write(image, "jpeg", photo);
-//                        byte[] temp = new byte[1024 * 10];
-//                        int size = 0;
-//                        while ((size = fileContent.read(temp)) != -1)
-//                            photo.write(temp, 0, size);
                         photos.add(photo);
-//                        File img = new File("C:\\Users\\whymo\\Desktop\\test.jpg");
-//                        item.write(img);
-//                        System.out.println(img.getAbsolutePath());
                     }
                 }
                 if(addPerson(photos, params)){
