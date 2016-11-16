@@ -33,6 +33,11 @@ $(document).ready(function () {
     $('.return').click(function () {
         window.location.href = "nav.html";
     });
+    var currentUrl = window.location.href;
+    if(currentUrl.indexOf("?") != -1){
+        if(currentUrl.split("?")[1] == "goHome")
+            $('.back').click();
+    }
 
     setInterval(function () {
         if(state == STATE_GUIDING){

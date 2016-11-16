@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by my dell on 2016/9/22.
@@ -18,6 +19,8 @@ public class StateServlet extends HttpServlet{
     String uiProgram = "/home/robot/ulbrain_2dnav_ui-linux-x64/ulbrain_2dnav_ui";
     String navProgram = "/home/robot/github/ulbrain_2dnav/build/test/ulbrain_2dnav_socket";
     String navProgramDir = "/home/robot/github/ulbrain_2dnav";
+
+    public static final double DIST_THRESHOLD = 2;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         String type = request.getParameter("type");
@@ -61,6 +64,17 @@ public class StateServlet extends HttpServlet{
                 e.printStackTrace();
                 response.getWriter().write("error");
             }
+        }
+        else if(type.equals("isHome")){
+            List<Double> current = RobotHelper.getPoseInMap();
+            double dist = Math.hypot(
+                    current.get(0) - NavServlet.getInitialPose().get(0),
+                    current.get(1) - NavServlet.getInitialPose().get(1));
+            if(dist > DIST_THRESHOLD)
+                response.getWriter().write("false");
+            else
+                response.getWriter().write("true");
+//            response.getWriter().write("false");
         }
 
     }

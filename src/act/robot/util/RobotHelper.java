@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.zeromq.ZMQ;
@@ -97,6 +98,15 @@ public class RobotHelper {
         requester.sendByteBuffer(req, 0);
         return requester.recv();
 
+    }
+
+    public static List<Double> getPoseInMap(){
+        ByteBuffer resBuffer = ByteBuffer.wrap(getPose());
+        List<Double> res = new ArrayList<>();
+        for (int i = 0; i < 6; i++){
+            res.add(resBuffer.getDouble());
+        }
+        return res;
     }
 
     public static double getBattery(){

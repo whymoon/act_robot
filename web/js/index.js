@@ -2,6 +2,9 @@
  * Created by songxinxin on 2016/9/21.
  */
 lastRes = "null";
+var HOME_CHECK_INTERVAL = 1000;
+var HOME_MAX_COUNT = 240;
+var homeCount = 0;
 $(document).ready(function () {
     $('#webcam').resize(640, 480);
     $('#webcam').photobooth();
@@ -25,6 +28,22 @@ $(document).ready(function () {
             });
         }
     });
+
+    $("body").click(function (e) {
+        if ($(e.target).attr("class") != "trigger")
+            homeCount = 0;
+    });
+
+    setInterval(function () {
+        homeCount++;
+        if (homeCount >= HOME_MAX_COUNT){
+            $.get("/act_robot/StateServlet?type=isHome",function (data) {
+                if(data.trim() == "false"){
+                    window.location.href = "nav-guide.html?goHome"
+                }
+            });
+        }
+    }, HOME_CHECK_INTERVAL);
 
     $('#start-background').click(function () {
         if(window.confirm("请将机器人放于初始位置，并保证正确的初始朝向，之后按确定启动机器人程序")){

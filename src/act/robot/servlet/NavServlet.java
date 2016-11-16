@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
  * Created by my dell on 2016/9/8.
  */
 public class NavServlet extends HttpServlet {
-    private Map<String, List<Double>> destinations = new HashMap<>();
-    private List<Double> initialPose = Arrays.asList(81.85, 72.25, Math.PI / 2, 0.0, 0.0, 0.0);
+    private static Map<String, List<Double>> destinations = new HashMap<>();
+    private static List<Double> initialPose = Arrays.asList(81.85, 72.25, Math.PI / 2, 0.0, 0.0, 0.0);
     private boolean isFirst = true;
 
     public NavServlet() {
@@ -81,6 +81,10 @@ public class NavServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
+    }
+
+    public static List<Double> getInitialPose(){
+        return initialPose;
     }
 
     private boolean navToDes(String des){
