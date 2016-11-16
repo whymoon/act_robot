@@ -6,6 +6,7 @@ var HOME_CHECK_INTERVAL = 1000;
 var HOME_MAX_COUNT = 240;
 var homeCount = 0;
 $(document).ready(function () {
+    //google-chrome --kiosk http://example.com
     $('#webcam').resize(640, 480);
     $('#webcam').photobooth();
     $('#webcam').data("photobooth").resize(640, 480);
