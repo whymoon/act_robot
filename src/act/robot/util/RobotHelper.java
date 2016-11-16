@@ -80,8 +80,8 @@ public class RobotHelper {
 
     public static void setGoal(List<Double> goal){
         initContext();
-        ByteBuffer req = ByteBuffer.allocate(goal.size()*8 + HEADER_LEN + 2);
-        req.put(MSG_REQ).put(SET_TARGET).putInt(goal.size()*8).putShort((short) 1);
+        ByteBuffer req = ByteBuffer.allocate(goal.size()*8 + HEADER_LEN + 3);
+        req.put(MSG_REQ).put(SET_TARGET).putInt(goal.size()*8).put((byte)0).putShort((short) 1);
         for(int i = 0; i < goal.size(); i++){
             req.putDouble(goal.get(i));
         }

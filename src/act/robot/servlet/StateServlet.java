@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class StateServlet extends HttpServlet{
     int count = 1;
-
+    boolean isBackgroundOpened = false;
     String uiProgram = "/home/robot/ulbrain_2dnav_ui-linux-x64/ulbrain_2dnav_ui";
     String navProgram = "/home/robot/github/ulbrain_2dnav/build/test/ulbrain_2dnav_socket";
     String navProgramDir = "/home/robot/github/ulbrain_2dnav";
@@ -50,6 +50,8 @@ public class StateServlet extends HttpServlet{
         }
         else if(type.equals("stopBackGround")){
             Runtime.getRuntime().exec("killall ulbrain_2dnav_socket");
+            isBackgroundOpened = false;
+            NavServlet.isFirst = true;
             response.getWriter().write("done");
         }
         else if(type.equals("startBackGround")){
@@ -59,6 +61,8 @@ public class StateServlet extends HttpServlet{
                 process.redirectOutput(new File("/home/robot/out.txt"));
                 process.redirectError(new File("/home/robot/error.txt"));
                 process.start();
+                isBackgroundOpened = true;
+                NavServlet.isFirst = true;
                 response.getWriter().write("done");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,6 +79,10 @@ public class StateServlet extends HttpServlet{
             else
                 response.getWriter().write("true");
 //            response.getWriter().write("false");
+        }
+        else if(type.equals("isBackgroundOpened")){
+            System.out.println(isBackgroundOpened);
+            response.getWriter().write(isBackgroundOpened + "");
         }
 
     }

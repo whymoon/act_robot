@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class NavServlet extends HttpServlet {
     private static Map<String, List<Double>> destinations = new HashMap<>();
     private static List<Double> initialPose = Arrays.asList(81.85, 72.25, Math.PI / 2, 0.0, 0.0, 0.0);
-    private boolean isFirst = true;
+    public static boolean isFirst = true;
 
     public NavServlet() {
         destinations.put("电梯间", Arrays.asList(78.53, 81.57, -Math.PI / 2));
@@ -26,9 +26,9 @@ public class NavServlet extends HttpServlet {
         destinations.put("510", Arrays.asList(86.64, 71.27, Math.PI / 2));
         destinations.put("508", Arrays.asList(86.63,78.38,-Math.PI / 2));
         destinations.put("507", Arrays.asList(86.67,86.60,-Math.PI / 2));
-        destinations.put("506", Arrays.asList(86.67,96.69,-Math.PI / 2));
+        destinations.put("506", Arrays.asList(86.92,95.77,-Math.PI / 2));
         destinations.put("505", Arrays.asList(86.60,102.75,-Math.PI / 2));
-        destinations.put("504", Arrays.asList(86.46,103.42,0.0));
+        destinations.put("504", Arrays.asList(83.86,103.55,0.0));
         destinations.put("503", Arrays.asList(76.40,103.42,0.0));
         destinations.put("502", Arrays.asList(68.11,103.22,0.0));
         destinations.put("501", Arrays.asList(58.12,86.63,-Math.PI / 2));
@@ -95,6 +95,7 @@ public class NavServlet extends HttpServlet {
                 isFirst = false;
             }
             RobotHelper.setGoal(destinations.get(des));
+            RobotHelper.changeNavMode(RobotHelper.MODE_CONTINUE);
             return true;
         }
         return false;

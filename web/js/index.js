@@ -18,7 +18,19 @@ $(document).ready(function () {
         alert('HTML5 webcam is not supported by your browser, please use latest firefox, opera or chrome!');
     }
     $('#webcam').hide();
+
     $('#stop-background').hide();
+    $.get("/act_robot/StateServlet?type=isBackgroundOpened",function (data) {
+        console.log(data);
+        if(data == "false"){
+            $('#start-background').show();
+            $('#stop-background').hide();
+        }
+        else{
+            $('#start-background').hide();
+            $('#stop-background').show();
+        }
+    });
 
     $('#stop-background').click(function () {
         if(window.confirm("此操作将关闭机器人程序，机器人状态获取、移动功能将无法正常工作，确定重启？")){

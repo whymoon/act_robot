@@ -18,13 +18,16 @@ $(document).ready(function () {
                 if (data != "error") {
                     console.log(data);
                     data = data.trim();
+                    var speakData = "";
                     var reg = new RegExp("^[0-9]*$");
                     if (reg.test(data)) {
-                        var speakData = "";
                         for (var i = 0; i < data.length; i++) {
                             speakData += data[i];
                             speakData += " ";
                         }
+                    }
+                    else {
+                        speakData = data;
                     }
                     console.log(speakData);
                     speakText("即将带您去" + speakData.trim() + "，请跟我走。");
