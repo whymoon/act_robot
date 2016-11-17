@@ -17,7 +17,7 @@ public class StateServlet extends HttpServlet{
     int count = 1;
     boolean isBackgroundOpened = false;
     String uiProgram = "/home/robot/ulbrain_2dnav_ui-linux-x64/ulbrain_2dnav_ui";
-    String navProgram = "/home/robot/github/ulbrain_2dnav/build/test/ulbrain_2dnav_socket";
+    String navProgram = "/home/robot/github/ulbrain_2dnav/build/release/test/ulbrain_2dnav_socket";
     String navProgramDir = "/home/robot/github/ulbrain_2dnav";
 
     public static final double DIST_THRESHOLD = 2;
@@ -58,8 +58,8 @@ public class StateServlet extends HttpServlet{
             try {
 //                Runtime.getRuntime().exec("ls > /home/robot/out.txt");
                 ProcessBuilder process = new ProcessBuilder(navProgram.split(" ")).directory(new File(navProgramDir));
-                process.redirectOutput(new File("/home/robot/out.txt"));
-                process.redirectError(new File("/home/robot/error.txt"));
+//                process.redirectOutput(new File("/home/robot/out.txt"));
+//                process.redirectError(new File("/home/robot/error.txt"));
                 process.start();
                 isBackgroundOpened = true;
                 NavServlet.isFirst = true;

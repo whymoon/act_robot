@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     $('#stop-background').click(function () {
-        if(window.confirm("此操作将关闭机器人程序，机器人状态获取、移动功能将无法正常工作，确定重启？")){
+        if(window.confirm("警告!!此操作将关闭机器人程序，机器人状态获取、移动功能将无法正常工作，确定关闭？")){
             $.get("/act_robot/StateServlet?type=stopBackGround",function (data) {
                 $('#start-background').show();
                 $('#stop-background').hide();
@@ -59,7 +59,7 @@ $(document).ready(function () {
     }, HOME_CHECK_INTERVAL);
 
     $('#start-background').click(function () {
-        if(window.confirm("请将机器人放于初始位置，并保证正确的初始朝向，之后按确定启动机器人程序")){
+        if(window.confirm("警告!!请将机器人放于初始位置，并保证正确的初始朝向，之后按确定启动机器人程序，错误的初始位置可能会导致定位系统混乱!!")){
             $.get("/act_robot/StateServlet?type=startBackGround",function (data) {
                 $('#start-background').hide();
                 $('#stop-background').show();
@@ -92,7 +92,7 @@ function uploadImage(file) {
         }
         lastRes = data;
         if (data == "empty")
-            speakText("你好！欢迎来到A C T");
+            speakText("你好！欢迎来到A C T实验室");
         else if (data != "null")
             speakText("你好！" + data);
     });
