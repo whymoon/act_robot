@@ -48,6 +48,21 @@ public class TrainFaceServlet extends HttpServlet {
                     syncRet.getString("session_id")).getJSONObject("result").getBoolean("success")){
                 Thread.sleep(500);
             }
+//            System.out.println(httpRequests.infoGetPersonList());
+//            ArrayList<String> ids = new ArrayList<>();
+//            ids.add("jsl");
+//            ids.add("ljw2");
+//            ids.add("hm");
+//            ids.add("ljw");
+//            ids.add("songxinxin");
+//            ids.add("xxsong");
+//            ids.add("sxx");
+//            ids.add("why2333");
+//            ids.add("why233");
+//            ids.add("why2");
+//            ids.add("xwc");
+//            ids.add("why43");
+//            System.out.println(httpRequests.personDelete(new PostParameters().setPersonName(ids)));
         }
         catch (Exception e){
             e.printStackTrace();

@@ -92,7 +92,7 @@ function uploadImage(file) {
         }
         lastRes = data;
         if (data == "empty")
-            speakText("你好！");
+            speakText("你好！欢迎来到A C T");
         else if (data != "null")
             speakText("你好！" + data);
     });
