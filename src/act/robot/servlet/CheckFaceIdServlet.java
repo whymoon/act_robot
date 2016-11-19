@@ -35,7 +35,7 @@ public class CheckFaceIdServlet extends HttpServlet {
             JSONArray persons2 = httpRequests.infoGetPersonList().getJSONArray("person");
             for(int i = 0; i < persons2.length(); i++){
 //                System.out.println(persons.getJSONObject(i).getString("person_name"));
-                if(persons.getJSONObject(i).getString("person_name").equals(userId)){
+                if(persons2.getJSONObject(i).getString("person_name").equals(userId)){
                     response.getWriter().write("1");
                     return;
                 }
