@@ -5,6 +5,7 @@ lastRes = "null";
 var HOME_CHECK_INTERVAL = 1000;
 var HOME_MAX_COUNT = 240;
 var homeCount = 0;
+var isSaid = false;
 $(document).ready(function () {
     //google-chrome --kiosk http://example.com
     $('#webcam').resize(640, 480);
@@ -71,7 +72,8 @@ $(document).ready(function () {
     //photo
     $('.trigger').click();
     setInterval(function () {
-        $('.trigger').click();
+        if(!isSaid)
+            $('.trigger').click();
     }, 3000);
 });
 
@@ -91,6 +93,8 @@ function uploadImage(file) {
             return;
         }
         lastRes = data;
+        if(data != "null")
+            isSaid = true;
         if (data == "empty")
             speakText("你好！欢迎来到A C T实验室");
         else if (data != "null")
