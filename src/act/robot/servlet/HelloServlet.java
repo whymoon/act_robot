@@ -48,7 +48,7 @@ public class HelloServlet extends HttpServlet{
                         new PostParameters().setGroupName(FaceConstant.GROUP_NAME).setImg(photo.toByteArray()));
                 JSONArray names = json.getJSONArray("face");
                 System.out.println(names);
-                if(names.length() > 0){
+                if(names.length() > 0 && names.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getDouble("confidence") >= 20){
                     name = names.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("tag");
                 }
             }
