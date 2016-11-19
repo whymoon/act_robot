@@ -45,6 +45,7 @@ public class FaceIdentifyServlet extends HttpServlet {
 	    while((size = fileContent.read(temp)) != -1)
 	    	photo.write(temp, 0, size);
 		String res = "1";
+        String resName = "";
         JSONObject information = new JSONObject();
 		
 		HttpRequests httpRequests = new HttpRequests(
@@ -57,6 +58,7 @@ public class FaceIdentifyServlet extends HttpServlet {
             JSONArray face = json.getJSONArray("face");
             if(face.length() > 0) {
                 res = face.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("person_name");
+                resName = face.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("tag");
             }
 
 		} catch (Exception e) {
@@ -77,6 +79,8 @@ public class FaceIdentifyServlet extends HttpServlet {
                 information.put("user_job", sqlRes.getString("user_job"));
                 information.put("user_department", sqlRes.getString("user_department"));
                 information.put("user_major", sqlRes.getString("user_major"));
+                information.put("user_speak_name", resName);
+
             }else{
                 information.put("user_id", res);
                 information.put("user_name", "");
@@ -84,6 +88,7 @@ public class FaceIdentifyServlet extends HttpServlet {
                 information.put("user_job", "");
                 information.put("user_department", "");
                 information.put("user_major", "");
+                information.put("user_speak_name", "");
             }
             con.close();
         }catch (Exception e){

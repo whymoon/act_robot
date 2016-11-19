@@ -44,13 +44,13 @@ public class HelloServlet extends HttpServlet{
             JSONArray face = res.getJSONArray("face");
             if(face.length() > 0){
                 name = "empty";
-//                JSONObject json = httpRequests.recognitionIdentify(
-//                        new PostParameters().setGroupName(FaceConstant.GROUP_NAME).setImg(photo.toByteArray()));
-//                JSONArray names = json.getJSONArray("face");
-//                System.out.println(names);
-//                if(names.length() > 0) {
-//                    name = names.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("tag");
-//                }
+                JSONObject json = httpRequests.recognitionIdentify(
+                        new PostParameters().setGroupName(FaceConstant.GROUP_NAME).setImg(photo.toByteArray()));
+                JSONArray names = json.getJSONArray("face");
+                System.out.println(names);
+                if(names.length() > 0){
+                    name = names.getJSONObject(0).getJSONArray("candidate").getJSONObject(0).getString("tag");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

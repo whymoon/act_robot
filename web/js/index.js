@@ -93,6 +93,8 @@ function uploadImage(file) {
             return;
         }
         lastRes = data;
+        if(isSaid)
+            return;
         if(data != "null")
             isSaid = true;
         if (data == "empty")

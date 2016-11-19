@@ -59,7 +59,7 @@ function uploadImage(file) {
         $('#update').show();
         $('#picture').show();
         $('#header-div').show();
-        var str = "识别结果:" + data["user_name"];
+        var str = "识别结果:" + data["user_speak_name"];
         $('#name').text(str).show();
         $('#title').show();
         // alert(data["user_birthplace"] + " " + data["user_job"] + " " + data["user_department"]+ " " + data["user_major"]);
@@ -69,7 +69,7 @@ function uploadImage(file) {
         keys.push(data["user_job"]);
         keys.push(data["user_department"]);
         keys.push(data["user_major"]);
-        recommend(keys, data["user_name"]);
+        recommend(keys, data["user_speak_name"]);
     });
 }
 
