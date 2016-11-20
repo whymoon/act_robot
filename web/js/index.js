@@ -52,10 +52,12 @@ $(document).ready(function () {
         homeCount++;
         if (homeCount >= HOME_MAX_COUNT){
             $.get("/act_robot/StateServlet?type=isHome",function (data) {
+                console.log(data);
                 if(data.trim() == "false"){
                     window.location.href = "nav-guide.html?goHome"
                 }
             });
+            homeCount = 0;
         }
     }, HOME_CHECK_INTERVAL);
 

@@ -70,6 +70,10 @@ public class StateServlet extends HttpServlet{
             }
         }
         else if(type.equals("isHome")){
+            if(NavServlet.isFirst){
+                response.getWriter().write("true");
+                return;
+            }
             List<Double> current = RobotHelper.getPoseInMap();
             double dist = Math.hypot(
                     current.get(0) - NavServlet.getInitialPose().get(0),

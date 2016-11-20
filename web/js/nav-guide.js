@@ -11,6 +11,7 @@ var state = STATE_GUIDING;
 var count = 0;
 var tipText = "";
 var stopLastState = STATE_GUIDING;
+var isFromIndex = false;
 
 $(document).ready(function () {
     speakText("");
@@ -35,8 +36,11 @@ $(document).ready(function () {
     });
     var currentUrl = window.location.href;
     if(currentUrl.indexOf("?") != -1){
-        if(currentUrl.split("?")[1] == "goHome")
+        if(currentUrl.split("?")[1] == "goHome"){
             $('.back').click();
+            isFromIndex = true;
+        }
+
     }
 
     setInterval(function () {
@@ -53,8 +57,10 @@ $(document).ready(function () {
         if (state != STATE_GUIDE_FINISHED)
             return;
         count++;
-        if (count >= 600)
+        if (count >= 600){
+            count = 0;
             goBack();
+        }
     }, 1000);
     $("body").click(function (e) {
         count = 0;
@@ -108,7 +114,10 @@ function guideFinish() {
 function backFinsih() {
     state = STATE_BACK_FINISHED;
     speakText("返航成功");
-    setTimeout("window.location.href = 'nav.html'", 2000);
+    if(isFromIndex)
+        setTimeout("window.location.href = 'screenSaver.html'", 2000);
+    else
+        setTimeout("window.location.href = 'nav.html'", 2000);
 }
 
 function continueGuide() {

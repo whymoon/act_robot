@@ -102,6 +102,7 @@ public class RobotHelper {
 
     public static List<Double> getPoseInMap(){
         ByteBuffer resBuffer = ByteBuffer.wrap(getPose());
+        resBuffer.position(HEADER_LEN);
         List<Double> res = new ArrayList<>();
         for (int i = 0; i < 6; i++){
             res.add(resBuffer.getDouble());
