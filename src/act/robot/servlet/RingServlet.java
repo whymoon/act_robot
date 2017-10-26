@@ -29,9 +29,9 @@ public class RingServlet extends HttpServlet{
 
         try {
             if(type.equals("latest"))
-                str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/newevent?type=latest");
+                str = HttpUtil.sendGet(HttpUtil.RING_URL + "api/newevent?type=latest");
             else
-                str = HttpUtil.sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));
+                str = HttpUtil.sendGet(HttpUtil.RING_URL + "api/esearch?wd=" + URLEncoder.encode(key, "utf-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }

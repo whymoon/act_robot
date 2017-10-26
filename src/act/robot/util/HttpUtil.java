@@ -9,6 +9,7 @@ import java.net.URL;
  * Created by whymo on 2016/9/24.
  */
 public class HttpUtil {
+    public static final String RING_URL = "http://ring.act.buaa.edu.cn/";
     public static String sendGet(String url)throws Exception {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();

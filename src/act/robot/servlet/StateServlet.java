@@ -51,7 +51,7 @@ public class StateServlet extends HttpServlet{
         else if(type.equals("stopBackGround")){
             Runtime.getRuntime().exec("killall ulbrain_2dnav_socket");
             isBackgroundOpened = false;
-            NavServlet.isFirst = true;
+            NavServlet.setIsFirst();
             response.getWriter().write("done");
         }
         else if(type.equals("startBackGround")){
@@ -62,7 +62,7 @@ public class StateServlet extends HttpServlet{
 //                process.redirectError(new File("/home/robot/error.txt"));
                 process.start();
                 isBackgroundOpened = true;
-                NavServlet.isFirst = true;
+                NavServlet.setIsFirst();
                 response.getWriter().write("done");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -70,7 +70,7 @@ public class StateServlet extends HttpServlet{
             }
         }
         else if(type.equals("isHome")){
-            if(NavServlet.isFirst){
+            if(NavServlet.getIsFirst()){
                 response.getWriter().write("true");
                 return;
             }
@@ -90,7 +90,7 @@ public class StateServlet extends HttpServlet{
         }
 
     }
-    protected  void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException,IOException{
         doPost(request,response);
     }
 }

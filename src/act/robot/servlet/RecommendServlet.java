@@ -23,7 +23,7 @@ public class RecommendServlet extends HttpServlet{
         try{
             JSONArray keyArray = new JSONArray(keys);
             for (int i = 0; i < keyArray.length(); i++){
-                String resJson = HttpUtil.sendGet("http://ring.cnbigdata.org/api/esearch?wd=" + URLEncoder.encode(keyArray.getString(i), "utf-8"));
+                String resJson = HttpUtil.sendGet(HttpUtil.RING_URL + "api/esearch?wd=" + URLEncoder.encode(keyArray.getString(i), "utf-8"));
                 resArray.put(new JSONObject(resJson));
             }
         }

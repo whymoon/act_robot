@@ -16,13 +16,21 @@ import java.util.regex.Pattern;
 public class NavServlet extends HttpServlet {
     private static Map<String, List<Double>> destinations = new HashMap<>();
     private static List<Double> initialPose = Arrays.asList(81.85, 72.25, Math.PI / 2, 0.0, 0.0, 0.0);
-    public static boolean isFirst = true;
+    private static boolean isFirst = false;
+
+    public static void setIsFirst(){
+        isFirst = false;
+    }
+
+    public static boolean getIsFirst(){
+        return isFirst;
+    }
 
     public NavServlet() {
         destinations.put("电梯间", Arrays.asList(78.53, 81.57, -Math.PI / 2));
         destinations.put("会议室", Arrays.asList(86.64, 71.27, Math.PI / 2));
-        destinations.put("初始点", Arrays.asList(initialPose.get(0), initialPose.get(1), initialPose.get(2)));
-        destinations.put("大厅", Arrays.asList(initialPose.get(0), initialPose.get(1), initialPose.get(2)));
+        destinations.put("初始点", Arrays.asList(81.85, 72.25, Math.PI / 2));
+        destinations.put("大厅", Arrays.asList(81.85, 72.25, Math.PI / 2));
         destinations.put("510", Arrays.asList(86.64, 71.27, Math.PI / 2));
         destinations.put("508", Arrays.asList(86.63,78.38,-Math.PI / 2));
         destinations.put("507", Arrays.asList(86.67,86.60,-Math.PI / 2));
@@ -38,6 +46,7 @@ public class NavServlet extends HttpServlet {
         destinations.put("茶水间a", Arrays.asList(56.39,96.48,-Math.PI / 2));
         destinations.put("茶水间b", Arrays.asList(56.23,88.74,-Math.PI / 2));
         destinations.put("茶水间", Arrays.asList(56.23,88.74,-Math.PI / 2));
+        setIsFirst();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,6 +99,7 @@ public class NavServlet extends HttpServlet {
     private boolean navToDes(String des){
         if (destinations.containsKey(des)) {
             System.out.println("去" + des);
+            System.out.println("isFirst:" + isFirst);
             if(isFirst){
                 RobotHelper.setInitialPose(initialPose);
                 isFirst = false;
