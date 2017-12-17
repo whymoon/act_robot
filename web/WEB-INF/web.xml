@@ -116,4 +116,12 @@
         <servlet-name>InputUserServlet</servlet-name>
         <url-pattern>/InputUserServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AnomalyServlet</servlet-name>
+        <servlet-class>act.robot.servlet.AnomalyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AnomalyServlet</servlet-name>
+        <url-pattern>/AnomalyServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
