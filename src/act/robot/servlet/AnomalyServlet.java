@@ -1,5 +1,6 @@
 package act.robot.servlet;
 
+import act.robot.constant.InspectorConstant;
 import act.robot.util.SqliteConnector;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,12 +21,14 @@ import java.sql.Statement;
  */
 public class AnomalyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String url = "jdbc:sqlite:/home/robot/catkin_ws_qfeel/src/tsmros/db/obj_mem.db";
+        String url = "jdbc:sqlite:" + InspectorConstant.tsmrosPath + "db/obj_mem.db";
         response.setContentType("application/json; charset=utf-8");
         String lastId = request.getParameter("lastId");
+        Connection con = null;
+        Statement statement = null;
         try {
-            Connection con = SqliteConnector.connect(url);
-            Statement statement = con.createStatement();
+            con = SqliteConnector.connect(url);
+            statement = con.createStatement();
             ResultSet rs = statement.executeQuery(
                     "SELECT * FROM outlier INNER JOIN obj_mem ON outlier.datum_id = obj_mem.id WHERE outlier.id > "
                     + lastId + ";"
@@ -48,6 +51,15 @@ public class AnomalyServlet extends HttpServlet {
             return;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if(statement != null)
+                    statement.close();
+                if(con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         response.getWriter().write("[]");
     }

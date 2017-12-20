@@ -124,4 +124,12 @@
         <servlet-name>AnomalyServlet</servlet-name>
         <url-pattern>/AnomalyServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>InspectorServlet</servlet-name>
+        <servlet-class>act.robot.servlet.InspectorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InspectorServlet</servlet-name>
+        <url-pattern>/InspectorServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
