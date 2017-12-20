@@ -27,8 +27,8 @@ public class InspectorServlet extends HttpServlet {
     public void destroy() {
         super.destroy();
         try {
-            if(statement != null)
-                statement.close();
+//            if(statement != null)
+//                statement.close();
             if(con != null)
                 con.close();
         } catch (SQLException e) {
@@ -39,12 +39,7 @@ public class InspectorServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            con = SqliteConnector.connect(url);
-            statement = con.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        con = SqliteConnector.connect(url);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,6 +47,7 @@ public class InspectorServlet extends HttpServlet {
         String type = request.getParameter("type");
         if(type.equals("pos")){
             try {
+                statement = con.createStatement();
                 ResultSet rs = statement.executeQuery("select * from pos order by id desc limit 0,1;");
                 JSONObject res = new JSONObject();
                 res.put("x", rs.getString("x"));
@@ -62,6 +58,13 @@ public class InspectorServlet extends HttpServlet {
                 return;
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    if (statement != null)
+                        statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
             response.getWriter().write("{}");
         } else if (type.equals("map")){
