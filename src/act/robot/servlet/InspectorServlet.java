@@ -67,8 +67,8 @@ public class InspectorServlet extends HttpServlet {
         } else if (type.equals("map")){
             JSONObject res = new JSONObject();
             try {
-                copyFile(InspectorConstant.tsmrosPath + "map/map_color.bmp", InspectorConstant.serverPath + "web/image/map_color.bmp");
-                File picture = new File(InspectorConstant.serverPath + "web/image/map_color.bmp");
+                copyFile(InspectorConstant.tsmrosPath + "map/map_color.bmp", InspectorConstant.serverPath + "image/map_color.bmp");
+                File picture = new File(InspectorConstant.serverPath + "image/map_color.bmp");
                 BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
                 res.put("path", "image/map_color.bmp");
                 res.put("resolution", "" + getResolution());
@@ -88,7 +88,7 @@ public class InspectorServlet extends HttpServlet {
     private double getResolution() {
         double res = 1.0;
         try {
-            FileReader reader = new FileReader(InspectorConstant.serverPath + "map/map.yaml");
+            FileReader reader = new FileReader(InspectorConstant.tsmrosPath + "map/map.yaml");
             BufferedReader br = new BufferedReader(reader);
             String str = null;
             while ((str = br.readLine()) != null) {
