@@ -28,8 +28,8 @@ $(document).ready(function () {
                 lastX = goalData[i].x;
                 lastY = goalData[i].y
             }
-            console.log(goals);
-            console.log(goals["448:711"]);
+            // console.log(goals);
+            // console.log(goals["448:711"]);
             var checkPoint = context.getImageData(0,  0,  canvas.width,  canvas.height);
             setInterval(function () {
                 $.get("/act_robot/InspectorServlet?type=pos", function (posData) {
@@ -50,7 +50,7 @@ $(document).ready(function () {
                     var maxId = lastOutlier;
                     for (var i = 0; i < data.length; i++){
                         var pos = parseInt(data[i].loc_x) + ":" + parseInt(data[i].loc_y);
-                        console.log(pos);
+                        // console.log(pos);
                         $("#warning tbody").append("<tr><td>" + data[i].obj + "</td><td>"
                             + goals[pos] + "</td><td>" + data[i].outlier_type.split(" ")[1] + "</td></tr>");
                         // $("#warning ul").append("<li>" + data[i].obj + " at " + goals[pos] + ": " + data[i].outlier_type + "</li>");
