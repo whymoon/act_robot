@@ -26,6 +26,7 @@ public class AnomalyServlet extends HttpServlet {
         String lastId = request.getParameter("lastId");
         Connection con = null;
         Statement statement = null;
+        JSONArray res = new JSONArray();
         try {
             con = SqliteConnector.connect(url);
             statement = con.createStatement();
@@ -33,7 +34,6 @@ public class AnomalyServlet extends HttpServlet {
                     "SELECT * FROM outlier INNER JOIN obj_mem ON outlier.datum_id = obj_mem.id WHERE outlier.id > "
                     + lastId + ";"
             );
-            JSONArray array = new JSONArray();
             while (rs.next()) {
                 JSONObject ele = new JSONObject();
                 ele.put("id", "" + rs.getInt("id"));
@@ -44,11 +44,8 @@ public class AnomalyServlet extends HttpServlet {
                 ele.put("loc_y", rs.getString("loc_y"));
                 ele.put("pos", rs.getString("pos"));
                 ele.put("img_path", rs.getString("img_path"));
-                array.put(ele);
+                res.put(ele);
             }
-            System.out.println(array.toString());
-            response.getWriter().write(array.toString());
-            return;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -61,7 +58,8 @@ public class AnomalyServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        response.getWriter().write("[]");
+        System.out.println(res.toString());
+        response.getWriter().write(res.toString());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

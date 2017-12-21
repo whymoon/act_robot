@@ -19,14 +19,66 @@
         {
             list-style-type:none;
         }
+        .legend{
+            min-height:25px;
+            border: 2px solid #000000;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <canvas id="map-canvas" height="870px" width="870px" style="background: url('image/map_color.bmp'); background-size: cover; "> </canvas>
+        <div class="col-md-9">
+            <canvas id="map-canvas" height="850px" width="850px" style="background: url('image/map_color.bmp'); background-size: cover; "> </canvas>
+        </div>
+        <div class="col-md-3">
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(187, 97, 174);" ></div>
+                <div class="col-md-8">corridor</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(174, 31, 88);" ></div>
+                <div class="col-md-8">kitchen</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(22, 191, 246);" ></div>
+                <div class="col-md-8">lecture room</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(123, 200, 126);" ></div>
+                <div class="col-md-8">lobby</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(153, 242, 139);" ></div>
+                <div class="col-md-8">office</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(225, 225, 225);" ></div>
+                <div class="col-md-8">unknown area</div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-4 legend" style="background-color: rgb(255, 255, 255);" ></div>
+                <div class="col-md-8">blank area</div>
+            </div>
+            <div class="row">
+                <div class="panel panel-danger" style="margin-top: 20px;">
+                    <div class="panel-heading">Warning</div>
+                    <div id="warning" style="min-height: 400px; max-height: 400px; overflow: scroll">
+                    <table class="table">
+                        <thead>
+                            <tr><th>object</th><th>position</th><th>type</th></tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </div>
+                    <!--<div class="panel-body" id="warning" style="min-height: 400px; max-height: 400px; overflow: scroll">-->
+
+                        <!--<ul style="list-style-type:none; margin: 0px; padding: 0px;">-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                </div>
+            </div>
         </div>
     </div>
 </div>

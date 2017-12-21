@@ -2,6 +2,7 @@ package act.robot.servlet;
 
 import act.robot.constant.InspectorConstant;
 import act.robot.util.SqliteConnector;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,16 +47,14 @@ public class InspectorServlet extends HttpServlet {
         response.setContentType("application/json; charset=utf-8");
         String type = request.getParameter("type");
         if(type.equals("pos")){
+            JSONObject res = new JSONObject();
             try {
                 statement = con.createStatement();
                 ResultSet rs = statement.executeQuery("select * from pos order by id desc limit 0,1;");
-                JSONObject res = new JSONObject();
                 res.put("x", rs.getString("x"));
                 res.put("y", rs.getString("y"));
                 res.put("angle", rs.getString("angle"));
                 res.put("id", rs.getString("id"));
-                response.getWriter().write(res.toString());
-                return;
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -66,7 +65,7 @@ public class InspectorServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-            response.getWriter().write("{}");
+            response.getWriter().write(res.toString());
         } else if (type.equals("map")){
             JSONObject res = new JSONObject();
             try {
@@ -77,6 +76,32 @@ public class InspectorServlet extends HttpServlet {
                 res.put("resolution", "" + getResolution());
                 res.put("height", sourceImg.getHeight());
                 res.put("width", sourceImg.getWidth());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            response.getWriter().write(res.toString());
+        } else if (type.equals("goal")){
+            JSONArray res = new JSONArray();
+            try {
+                FileReader reader = new FileReader(InspectorConstant.tsmrosPath + "map/map_key_point.yaml");
+                BufferedReader br = new BufferedReader(reader);
+                String str = null;
+                while ((str = br.readLine()) != null) {
+                    String content = str.split(":")[1].trim();
+                    content = content.replaceAll("\\[", " ").replaceAll("\\]", " ");
+                    String[] points = content.split(",");
+                    int i = 0;
+                    while (i < points.length){
+                        JSONObject ele = new JSONObject();
+                        ele.put("x", Integer.parseInt(points[i].trim()));
+                        ele.put("y", Integer.parseInt(points[i + 1].trim()));
+                        ele.put("angle", Double.parseDouble(points[i + 2]));
+                        i += 3;
+                        res.put(ele);
+                    }
+                }
+                br.close();
+                reader.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
