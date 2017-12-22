@@ -20,34 +20,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InspectorServlet extends HttpServlet {
-    String url = "jdbc:sqlite:" + InspectorConstant.tsmrosPath + "db/pos.db";
-    Connection con = null;
-    Statement statement = null;
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        try {
-//            if(statement != null)
-//                statement.close();
-            if(con != null)
-                con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        con = SqliteConnector.connect(url);
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=utf-8");
         String type = request.getParameter("type");
         if(type.equals("pos")){
             JSONObject res = new JSONObject();
+            String url = "jdbc:sqlite:" + InspectorConstant.tsmrosPath + "db/pos.db";
+            Connection con = null;
+            Statement statement = null;
+            con = SqliteConnector.connect(url);
             try {
                 statement = con.createStatement();
                 ResultSet rs = statement.executeQuery("select * from pos order by id desc limit 0,1;");
@@ -61,6 +42,8 @@ public class InspectorServlet extends HttpServlet {
                 try {
                     if (statement != null)
                         statement.close();
+                    if (con != null)
+                        con.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -104,6 +87,47 @@ public class InspectorServlet extends HttpServlet {
                 reader.close();
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            response.getWriter().write(res.toString());
+        } else if(type.equals("obj")){
+            JSONArray res = new JSONArray();
+            int lastId = Integer.parseInt(request.getParameter("lastId"));
+            String url = "jdbc:sqlite:" + InspectorConstant.tsmrosPath + "db/obj_mem.db";
+            Connection con = null;
+            Statement statement = null;
+            con = SqliteConnector.connect(url);
+            try {
+                statement = con.createStatement();
+                ResultSet rs = statement.executeQuery("select * from obj_mem where id>" + lastId + ";");
+                while (rs.next()) {
+                    JSONObject ele = new JSONObject();
+                    ele.put("id", rs.getString("id"));
+                    ele.put("loc_x", rs.getString("loc_x"));
+                    ele.put("loc_y", rs.getString("loc_y"));
+                    ele.put("time", rs.getString("time"));
+                    String objs = "";
+                    String objStr = rs.getString("objs").trim();
+                    String[] objList = objStr.split("\\|");
+                    for (int i = 0; i < objList.length; i++){
+                        if(objList[i].trim().length() > 0)
+                            objs += objList[i].split(":")[0].trim() + ", ";
+                    }
+                    if(objs.length() > 0)
+                        objs = objs.substring(0, objs.length() - 2);
+                    ele.put("objs", objs);
+                    res.put(ele);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (statement != null)
+                        statement.close();
+                    if (con != null)
+                        con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
             response.getWriter().write(res.toString());
         }
