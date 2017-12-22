@@ -57,7 +57,6 @@ $(document).ready(function () {
                             $("#goal-content-" + goals[pos]).text(objData[i].objs);
                             $("#goal-time-" + goals[pos]).text(objData[i].time);
                         }
-
                         maxId = Math.max(maxId, objData[i].id);
                     }
                     lastObj = maxId;
@@ -68,8 +67,8 @@ $(document).ready(function () {
                     var maxId = lastOutlier;
                     for (var i = 0; i < data.length; i++){
                         var pos = parseInt(data[i].loc_x) + ":" + parseInt(data[i].loc_y);
-                        $("#warning tbody").append("<tr><td>" + data[i].obj + "</td><td>"
-                            + goals[pos] + "</td><td>" + data[i].outlier_type.split(" ")[1] + "</td></tr>");
+                        $("#warning tbody").append("<tr><td>" + data[i].obj + "</td><td>" + goals[pos] + "</td><td>"
+                            + data[i].outlier_type.split(" ")[1] + "</td><td>" + data[i].time.split(" ")[1] + "</td></tr>");
                         $('#warning').scrollTop($('#warning')[0].scrollHeight);
                         maxId = Math.max(maxId, data[i].id);
                     }
