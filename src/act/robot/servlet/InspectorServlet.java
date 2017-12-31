@@ -52,10 +52,10 @@ public class InspectorServlet extends HttpServlet {
         } else if (type.equals("map")){
             JSONObject res = new JSONObject();
             try {
-                copyFile(InspectorConstant.tsmrosPath + "map/map_color.bmp", InspectorConstant.serverPath + "image/map_color.bmp");
-                File picture = new File(InspectorConstant.serverPath + "image/map_color.bmp");
+                copyImg(InspectorConstant.tsmrosPath + "map/map_color.bmp", InspectorConstant.serverPath + "image/map_color.jpg");
+                File picture = new File(InspectorConstant.serverPath + "image/map_color.jpg");
                 BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
-                res.put("path", "image/map_color.bmp");
+                res.put("path", "image/map_color.jpg");
                 res.put("resolution", "" + getResolution());
                 res.put("height", sourceImg.getHeight());
                 res.put("width", sourceImg.getWidth());
@@ -104,6 +104,7 @@ public class InspectorServlet extends HttpServlet {
                     ele.put("id", rs.getString("id"));
                     ele.put("loc_x", rs.getString("loc_x"));
                     ele.put("loc_y", rs.getString("loc_y"));
+                    ele.put("angle", rs.getString("pos"));
                     ele.put("time", rs.getString("time"));
                     String objs = "";
                     String objStr = rs.getString("objs").trim();
@@ -155,15 +156,19 @@ public class InspectorServlet extends HttpServlet {
         return res;
     }
 
-    private void copyFile(String fromFile, String toFile) throws IOException{
-        FileInputStream ins = new FileInputStream(new File(fromFile));
-        FileOutputStream out = new FileOutputStream(new File(toFile));
-        byte[] b = new byte[1024];
-        int n=0;
-        while((n=ins.read(b))!=-1){
-            out.write(b, 0, n);
-        }
-        ins.close();
-        out.close();
+    private void copyImg(String fromFile, String toFile) throws IOException{
+        File fi = new File(fromFile);
+        BufferedImage im = ImageIO.read(fi);
+        File fo = new File(toFile);
+        ImageIO.write(im, "jpg", fo);
+//        FileInputStream ins = new FileInputStream(new File(fromFile));
+//        FileOutputStream out = new FileOutputStream(new File(toFile));
+//        byte[] b = new byte[1024];
+//        int n=0;
+//        while((n=ins.read(b))!=-1){
+//            out.write(b, 0, n);
+//        }
+//        ins.close();
+//        out.close();
     }
 }

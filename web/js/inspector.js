@@ -4,6 +4,7 @@ $(document).ready(function () {
     var resolution = 1.0, height = 1000, width = 1000, hscale = 1.0, wscale = 1.0;
     var goals = {};
     var lastOutlier = -1, lastObj = -1;
+    var angleMap = {"0.0" : 0, "1.5708" : 1, "3.14159": 2, "-1.5708": 3};
 
     $.get("/act_robot/InspectorServlet?type=map", function (mapData) {
         canvas.style.background = "url('" + mapData["path"] + "')";
@@ -30,7 +31,11 @@ $(document).ready(function () {
             }
             var code = "";
             for (var key in goals){
-                code += "<tr><td>" + goals[key] + "</td><td id='goal-content-" + goals[key] + "'></td><td id='goal-time-" + goals[key] + "'></td></tr>"
+                code += "<tr><td>" + goals[key] + "</td><td id='goal-content0-" + goals[key] + "'></td>";
+                code += "<td id='goal-content1-" + goals[key] + "'></td>";
+                code += "<td id='goal-content2-" + goals[key] + "'></td>";
+                code += "<td id='goal-content3-" + goals[key] + "'></td>";
+                code += "<td id='goal-time-" + goals[key] + "'></td></tr>";
             }
             $("#objs tbody").html(code);
             var checkPoint = context.getImageData(0,  0,  canvas.width,  canvas.height);
@@ -52,9 +57,11 @@ $(document).ready(function () {
                 $.get("/act_robot/InspectorServlet?type=obj&lastId=" + lastObj, function (objData) {
                     var maxId = lastObj;
                     for (var i = 0; i < objData.length; i++){
+                        console.log(objData[i]);
                         var pos = parseInt(objData[i].loc_x) + ":" + parseInt(objData[i].loc_y);
                         if(goals.hasOwnProperty(pos)){
-                            $("#goal-content-" + goals[pos]).text(objData[i].objs);
+                            console.log("#goal-content" + angleMap[objData[i].angle] + "-" + goals[pos]);
+                            $("#goal-content" + angleMap[objData[i].angle] + "-" + goals[pos]).text(objData[i].objs);
                             $("#goal-time-" + goals[pos]).text(objData[i].time);
                         }
                         maxId = Math.max(maxId, objData[i].id);
