@@ -7,8 +7,9 @@ $(document).ready(function () {
     var angleMap = {"0.0" : 0, "1.5708" : 1, "3.14159": 2, "-1.5708": 3};
 
     $.get("/act_robot/InspectorServlet?type=map", function (mapData) {
-        canvas.style.background = "url('" + mapData["path"] + "')";
-        canvas.style.backgroundSize = "cover";
+        canvas.style.backgroundImage = "url('" + mapData["path"] + "')";
+        canvas.style.backgroundSize = "850px 850px";
+        canvas.style.backgroundRepeat = "no-repeat";
         resolution = parseFloat(mapData["resolution"]);
         height = parseFloat(mapData["height"]);
         width = parseFloat(mapData["width"]);
@@ -21,6 +22,7 @@ $(document).ready(function () {
             var offset = 0;
             for (var i = 0; i < goalData.length; i++){
                 if(goalData[i].x != lastX && goalData[i].y != lastY){
+                    console.log(wscale + " " + hscale + " " + width + " " + height);
                     context.fillText(String.fromCharCode(65+offset), goalData[i].x * wscale, goalData[i].y * hscale);
                     goals[goalData[i].x + ":" + goalData[i].y] = String.fromCharCode(65+offset);
                     offset++;

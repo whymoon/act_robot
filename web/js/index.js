@@ -100,7 +100,7 @@ function uploadImage(file) {
         if(data != "null")
             isSaid = true;
         if (data == "empty")
-            speakText("你好！欢迎来到A C T实验室");
+            speakText("你好！");
         else if (data != "null")
             speakText("你好！" + data);
     });
