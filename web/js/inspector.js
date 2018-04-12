@@ -21,7 +21,7 @@ $(document).ready(function () {
             var lastX = -1, lastY = -1;
             var offset = 0;
             for (var i = 0; i < goalData.length; i++){
-                if(goalData[i].x != lastX && goalData[i].y != lastY){
+                if(goalData[i].x != lastX || goalData[i].y != lastY){
                     console.log(wscale + " " + hscale + " " + width + " " + height);
                     context.fillText(String.fromCharCode(65+offset), goalData[i].x * wscale, goalData[i].y * hscale);
                     goals[goalData[i].x + ":" + goalData[i].y] = String.fromCharCode(65+offset);
